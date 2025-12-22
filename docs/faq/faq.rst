@@ -1,4 +1,4 @@
-Frquently Asked Questions
+Frequently Asked Questions
 =========================
 
 Find solutions to common problems below
