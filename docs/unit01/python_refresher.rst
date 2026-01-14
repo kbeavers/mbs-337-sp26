@@ -22,102 +22,32 @@ Topics covered in this module include:
 * Importing libraries (import, random, names, pip)
 
 
-Log in to the Class Server
---------------------------
+Log in to the Class Server via VSCode
+-------------------------------------
 
-All computing for this course will take place on Linux virtual machines (VMs). To reach them, you will connect in two steps:
+All computing for this course will take place on Linux virtual machines (VMs). 
+For this lesson and following lessons, we'll be using the VSCode IDE to connect to your student VMs. 
 
-1. First, we'll connect to ``student-login.tacc.utexas.edu``. This is a persistent Linux VM at TACC that acts as a login gateway (jump host). 
-2. Second, from ``student-login``, you'll connect to your own personal course VM. This VM is named ``mbs-337`` and is hosted on JetStream2. 
+.. note:: 
 
-To connect from your own computer, you will use the **Secure Shell (SSH)** protocol through a CLI or an SSH client. The exact steps depend slightly on your computer's operating system. 
+   **If you've already set up VSCode Remote-SSH you're all set!** 
+   VSCode will handle the connection to your VM automatically. You can use VSCode's 
+   integrated terminal to run the interactive Python interpreter and execute Python scripts. 
+   All the examples in this guide can be run directly from VSCode.
 
-.. note::
-
-   Replace ``username`` with your TACC username.
-
----- 
-
-**Mac / Linux**
-
-From the terminal, connect to the TACC login VM:
-
-.. code-block:: console
-
-   ssh username@student-login.tacc.utexas.edu
-   (enter password)
-   (enter MFA token)
-
-Once connected to ``student-login``, connect to your course VM:
-
-.. code-block:: console
-
-   ssh mbs-337
-
-----
-
-**Windows**
-
-To connect:
-
-.. code-block:: console
-
-   Open the application 'PuTTY'
-   Enter Host Name: student-login.tacc.utexas.edu
-   (Click 'Open')
-   (Enter username)
-   (Enter password)
-   (Enter MFA token)
-
-Once connected to ``student-login``, connect to your course VM:
-
-.. code-block:: console
-
-   ssh mbs-337
-
-----
-
-**Chromebook**
-
-1. Open **Settings**
-2. Go to **Advanced -> Developers**
-3. Enable **Linux development environment**
-
-Once enabled, you can open the Terminal app from your launcher and connect using SSH:
-
-.. code-block:: console
-
-   ssh username@student-login.tacc.utexas.edu
-   (enter password)
-   (enter MFA token)
-
-----
-
-Once connected to ``student-login``, connect to your course VM:
-
-.. code-block:: console
-
-   ssh mbs-337
+   If you haven't set up VSCode yet, please follow the VSCode setup instructions before proceeding.
 
 If you can't access the class server yet, a local or web-based Python 3
 environment will work for this guide. However, you will need to access the class
 server for future lectures.
 
-Try this `Python 3 environment in a browser <https://www.katacoda.com/scenario-examples/courses/environment-usages/python>`_.
-
-
-.. note::
-
-   For the first few sections below, we will be using the Python interpreter
-   in *interactive mode* to try out different things. Later on when we get to
-   more complex code, we will be saving the code in files (scripts) and invoking
-   the interpreter non-interactively.
+Try this `Python 3 environment in a browser <https://www.brython.info/tests/console.html?lang=en>`_.
 
 
 Data Types and Variables
 ------------------------
 
-Start up the interactive Python interpreter:
+Start up the interactive Python interpreter in VSCode's integrated terminal:
 
 .. code-block:: console
 
@@ -183,7 +113,7 @@ want to convert the string to integer or float as appropriate:
 
 What do you notice about the above ``type()`` commands? Is the output what you expected?
 
-Using ``str()`` prints a string of the original variable to the console, but it does not actually change the original variable itslef —
+Using ``str()`` prints a string of the original variable to the console, but it does not actually change the original variable itself —
 ``gene_count`` and ``protein_mass`` are still whatever you assigned earlier (an integer and a float, respectively).
 
 If you want ``gene_count`` and ``protein_mass`` to become strings, you must reassign the variable:
@@ -199,13 +129,13 @@ Alternatively, you can assign new variables as a different type of the original 
 
 .. code-block:: python3
 
-   >>> gene_count_new = int(gene_count)
+   >>> gene_count_int = int(gene_count)
    >>> type(gene_count)
-   >>> type(gene_count_new)
+   >>> type(gene_count_int)
    >>>
-   >>> protein_mass_new = float(protein_mass)
+   >>> protein_mass_float = float(protein_mass)
    >>> type(protein_mass)
-   >>> type(protein_mass_new)
+   >>> type(protein_mass_float)
 
 Arithmetic Operations
 ---------------------
@@ -290,9 +220,9 @@ Create an empty list and add things to it:
    >>> expression_levels.append(5.2)     # 'append()' is a method of the list class
    >>> expression_levels.append(3.8)
    >>> expression_levels.append(12.1)
-   >>> expression_levels.append(2**2)
+   >>> expression_levels.append(2**3)
    >>> print(expression_levels)
-   [5.2, 3.8, 12.1, 4]
+   [5.2, 3.8, 12.1, 8]
    >>> type(expression_levels)
    <class 'list'>
    >>> type(expression_levels[1])
@@ -542,7 +472,7 @@ Here are some examples:
    # Prints: 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95
 
 **Nested loops** are loops inside other loops. The inner loop completes all its iterations for each
-iteration of the outer loop. This is useful when you need to iterate over multiple dimenensions of data.
+iteration of the outer loop. This is useful when you need to iterate over multiple dimensions of data.
 
 For example, if you have three replicates of three samples under three conditions, you can print all combinations of
 replicates, samples, and conditions like so:
@@ -558,13 +488,6 @@ In the code above, the ``f''`` prefix before a string creates an **f-string** (f
 which allows you to embed Python expressions directly inside the string. Any expression inside curly braces 
 ``{}`` will be evaluated and inserted into the string. 
 
-.. note::
-
-   The code is getting a little bit more complicated now. It will be better to
-   stop running in the interpreter's interactive mode, and start writing our
-   code in Python scripts.
-
-
 Functions
 ---------
 
@@ -572,12 +495,26 @@ Functions
 pass data into functions, and have functions return data to us. Functions are
 absolutely essential to keeping our code clean and organized.
 
-On the command line, use a text editor to start writing a Python script:
+.. note::
 
-.. code-block:: console
+   The code is getting a little bit more complicated now. It will be better to
+   stop running in the interpreter's interactive mode, and start writing our
+   code in Python scripts.
 
-   [mbs-337]$ vim function_test.py
+Creating and Running Python Scripts in VSCode
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+From this point forward, we'll be writing Python code in files (scripts) rather than using the interactive interpreter.
+We'll use VSCode to create and edit these files.
+
+If you haven't already, make sure you're connected to your VM using VSCode Remote-SSH
+(see the VSCode setup instructions earlier in this unit).
+
+To create a new Python file in VSCode:
+
+1. In VSCode, click **File → New File** (or press ``Ctrl+N`` / ``Cmd+N``)
+2. Save the file with a ``.py`` extension (e.g., ``function_test.py``) by pressing ``Ctrl+S`` / ``Cmd+S``
+3. Make sure you're saving in the ``/home/ubuntu`` directory (or a subdirectory you've created)
 
 Enter the following text into the script:
 
@@ -589,7 +526,7 @@ Enter the following text into the script:
 
    print_gene_name()
 
-After saving and quitting the file, execute the script with the ``python3`` executable:
+To execute the script, open the integrated terminal in VSCode (``Ctrl+` `` or ``Cmd+` ``) and run:
 
 .. code-block:: console
 
@@ -598,9 +535,9 @@ After saving and quitting the file, execute the script with the ``python3`` exec
 
 .. note::
 
-   Future examples from this point on will assume familiarity with using the
-   text editor and executing the script. We will just be showing the contents of
-   the script and console output.
+   Future examples from this point on will assume familiarity with using VSCode
+   to create and edit Python files, and executing scripts using the integrated terminal.
+   We will just be showing the contents of the script and console output.
 
 More advanced functions can take parameters and return results. Before we look at an example,
 let's understand **dot notation** and **methods**. 
@@ -649,7 +586,7 @@ Let's write a function to calculate the GC content of our DNA sequence:
 
 The function above does the following:
 
-1. The function definition takes on parameter called ``sequence`` (a DNA sequence string)
+1. The function definition takes one parameter called ``sequence`` (a DNA sequence string)
 2. It then counts how many 'G' and 'C' bases are in the string, and adds them together to get the total GC count
 3. Then, it calculates the total number of bases in the sequence
 4. Finally, it calculates the percentage by dividing GC count by total bases and multiplying by 100. The ``return`` statement sends this value back to whoever called the function.
@@ -712,76 +649,88 @@ write (``w``), append (``a``), or create (``x``).
 
 For example, to read a file do the following:
 
-
 .. code-block:: python3
    :linenos:
 
    with open('/usr/share/dict/words', 'r') as f:
-       for x in range(5):
-           print(f.readline())
+       for i in range(5):
+           print(f.readline())               
 
 .. code-block:: text
 
-   1080
+   A
 
-   10-point
+   AA
 
-   10th
+   AAA
 
-   11-point
+   AA's
 
-   12-point
+   AB
 
 .. tip::
 
-   By opening the file with the ``with`` statement above, you get built in
-   exception handling, and it automatically will close the file handle for you.
-   It is generally recommended as the best practice for file handling.
+   ``with open() as f:`` – This is a **context manager**. It ensures the file is automatically closed
+   when you're done, even if an error occurs. The code inside the ``with`` block has access to the file
+   through the variable ``f``. Opening files using the ``with`` statement is generally recommended as 
+   best practice for file handling. 
 
+You may have noticed in the output above that there are blank lines between each word. 
+Every line in a text file ends with a hidden newline character (``\n``) so that when 
+you view the file, each word appears on its own line. ``f.readline()`` will return
+the line *including* its trailing newline character:
 
-You may have noticed in the above that there seems to be an extra space between
-each word. What is actually happening is that the file being read has newline
-characters on the end of each line (``\n``). When read into the Python script,
-the original new line is being printed, followed by another newline added by the
-``print()`` function. Stripping the newline character from the original string
+.. code-block:: python3
+
+   f.readline()  # returns "A\n"
+
+``print()`` adds its own newline character by default. The result you end up with is
+two newline characters per line:
+
+.. code-block:: text
+
+   "A\n" + "\n"
+
+Stripping the newline character from the original string
 is the easiest way to solve this problem:
 
 .. code-block:: python3
    :linenos:
 
    with open('/usr/share/dict/words', 'r') as f:
-       for x in range(5):
+       for i in range(5):
            print(f.readline().strip('\n'))
 
 .. code-block:: text
 
-   1080
-   10-point
-   10th
-   11-point
-   12-point
+   A
+   AA
+   AAA
+   AA's
+   AB
 
-
-Read the whole file and store it as a list:
+If we wanted to read the whole file and store it as a list, we can use the ``.read()`` method to read the entire file
+as one string (``"A\nAA\nAAA\n..."``) followed by the ``.splitlines()`` method that will split the string into a list
+of lines and automatically remove the newline characters from each line:
 
 .. code-block:: python3
    :linenos:
 
-   gene_names = []
+   word_names = []
 
    with open('/usr/share/dict/words', 'r') as f:
-       gene_names = f.read().splitlines()                # careful of memory usage
+       word_names = f.read().splitlines()
 
-   for x in range(5):
-       print(gene_names[x])
+   for i in range(5):
+       print(word_names[i])
 
 .. code-block:: text
 
-   1080
-   10-point
-   10th
-   11-point
-   12-point
+   A
+   AA
+   AAA
+   AA's
+   AB
 
 
 Write output to a new file on the file system; make sure you are attempting to
@@ -801,9 +750,8 @@ write somewhere where you have permissions to write:
    (in gene_list.txt)
    BRCA1TP53EGFRMYC
 
-
-You may notice the output file is lacking in newlines this time. Try adding
-newline characters to your output:
+Hmm... the output file is lacking in newlines this time.
+Try adding newline characters to your output:
 
 .. code-block:: python3
    :linenos:
@@ -838,18 +786,18 @@ has a method for generating random numbers called 'random'.
 .. code-block:: python3
    :linenos:
 
-   import random
+   import random  # Load `random` library into your program
 
    for i in range(5):
-       print(random.random())
+       print(random.random())  # From the `random` library, run the `random()` function
 
 .. code-block:: bash
 
-   0.47115888799541383
-   0.5202615354150987
-   0.8892412583071456
-   0.7467080997595558
-   0.025668541754695906
+   0.09816538597136149
+   0.3602086014874525
+   0.5582198241503482
+   0.49855010922872045
+   0.14930820354681074
 
 More information about using the ``random`` library can be found in the
 `Python docs <https://docs.python.org/3/library/random.html>`_
@@ -861,21 +809,30 @@ downloaded to your local environment using a tool called ``pip3``.
 
 For example, if you wanted to download the
 `BioPython <https://pypi.org/project/biopython/>`_ library (a popular library for
-biological data analysis) and use it in your Python
-code, you would do the following:
+biological data analysis) and use it in your Python code, you would first create a 
+virtual environment in VSCode's integrated terminal:
 
 .. code-block:: bash
 
-   [mbs-337]$ pip3 install --user biopython
+   [mbs-337]$ python3 -m venv myenv
+   [mbs-337]$ source myenv/bin/activate
+   (myenv) [mbs-337]$ pip3 install biopython
    Collecting biopython
-     Downloading ...
-   Installing collected packages: biopython
-   Successfully installed biopython-x.x.x
+      Downloading ...
+   Installing collected packages: numpy, biopython
+   Successfully installed biopython-x.xx numpy-x.x.x
 
-Notice the library is installed above with the ``--user`` flag. The class server
-is a shared system and non-privileged users can not download or install packages
-in root locations. The ``--user`` flag instructs ``pip3`` to install the library
-in your own home directory.
+.. note::
+
+   **Virtual environments** are isolated Python environments that allow you to
+   install packages without affecting the system Python installation. This is 
+   the recommended way to manage Python packages. After activating a virtual 
+   environment you'll see ``(myenv)`` in your prompt, and you can safely use 
+   ``pip3 install`` to install new Python packages to this virtual environment.
+
+   To deactivate the virtual environment later, simply type ``deactivate``. 
+
+Now we can use the BioPython library in our Python code:
 
 .. code-block:: python3
    :linenos:
@@ -883,39 +840,63 @@ in your own home directory.
    from Bio.Seq import Seq
 
    dna_sequence = Seq("ATGCGATCGATCG")
-   print(f"DNA sequence: {dna_sequence}")
-   print(f"Reverse complement: {dna_sequence.reverse_complement()}")
+   print(type(dna_sequence))
+   print(dna_sequence)
+   print(dna_sequence.transcribe())
+
+Before running this, let's break down what's happening:
+
+ * **Line 1**: Imports the ``Seq`` class from BioPython's ``Bio.Seq`` library. The ``Seq`` class is designed to work with biological sequences (DNA, RNA, proteins).
+ * **Line 3**: Creates a ``Seq`` object from a DNA sequence string. This is similar to how we've created strings and lists, but now we're creating a sequence object. 
+ * **Line 4**: The ``Seq`` object can be printed just like a string.
+ * **Line 5**: Use the ``.transcribe()`` method to transcribe your DNA into RNA!
 
 
 .. code-block:: bash
 
-   DNA sequence: ATGCGATCGATCG
-   Reverse complement: CGATCGATCGCAT
+   <class 'Bio.Seq.Seq'>
+   ATGCGATCGATCG
+   AUGCGAUCGAUCG
+
+You can read more about BioPython `here <https://biopython.org/wiki/Documentation>`_ and about the Seq class `here <https://biopython.org/wiki/Seq>`_.
 
 
 Exercises
 ---------
 
-Test your understanding of the materials above by attempting the following
-exercises.
+Test your understanding of the materials above by attempting the following exercises.
 
-* Create a list of ~10 different gene names. Write a function (using modulus and
-  conditionals) to determine if each gene name has an even or odd number of characters. Print to screen
-  each gene name followed by the word 'even' or 'odd' as appropriate.
-* Using nested for loops and if statements, write a program that iterates over
-  every integer from 3 to 100 (inclusive) and prints out the number only if it
-  is a prime number. (This could represent finding positions in a sequence that
-  are prime-numbered.)
-* Create three lists containing 10 expression values each. The first list should contain
-  all the integers sequentially from 1 to 10 (inclusive). The second list
-  should contain the squares of each element in the first list (representing
-  squared fold changes). The third list
-  should contain the cubes of each element in the first list. Print all three
-  lists side-by-side in three columns. E.g. the first row should contain 1, 1, 1
-  and the second row should contain 2, 4, 8.
-* Write a script to read in /usr/share/dict/words and print just the last 10
-  lines of the file. Write another script to only print words beginning with the
-  letters "gen" (hint: this might find some biology-related terms).
+.. attention::
+
+   **Please complete these exercises without using AI tools like ChatGPT or other code generators.** These exercises are designed to help you practice and build your programming skills. Working through them yourself is the 
+   best way to learn. If you get stuck, review the material above, work with a classmate,
+   or ask your instructor for help.
+
+**Exercise 1:** Create a list of ~10 different integers. Write a function (using modulus and conditionals) to determine if each integer is even or odd. Print to screen each digit followed by the word ‘even’ or ‘odd’ as appropriate.
+
+**Exercise 2:** Using BioPython's ``Seq`` class, write a script that:
+
+  a) Creates a DNA sequence object from the following string ('GAACCGGGAGGTGGGAATCCGTCACATATGAGAAGGTATTTGCCCGATAA')
+  b) Finds all stop codons in the sequence
+  c) Prints the number of times a stop codon appears
+  d) Prints the positions (starting base-pair) where each stop codon is found. 
+
+**Exercise 3:** Using nested for loops, write a program that generates all possible 3-base DNA codons (combinations of A, T, G, C). Print each codon on its own line. How many total codons should you get?
+
+**Exercise 4:** Write a function that calculates the percentage of each base (A, T, G, C) in a DNA sequence. The function should return a dictionary with bases as keys and percentages as values. Test it with a sequence of your choice and print the results formatted to 2 decimal places. 
+
+**Exercise 5:** You are analyzing gene expression data from three samples under control and treament conditions, with three replicates per condition. 
+Create a dictionary to store expression data for 3 samples, where each sample has control and treatment values as follows:
+
+  - Sample 1: Control values = 10.5, 11.2, 10.8; Treatment values = 25.3, 24.7, 26.1
+  - Sample 2: Control values = 8.2, 8.5, 8.0; Treatment values = 12.1, 11.8, 12.5
+  - Sample 3: Control values = 15.0, 14.8, 15.2; Treatment values = 18.5, 18.2, 18.8
+  
+  Then, write a script that:
+  
+  a) Calculates the mean expression for control and treatment for each sample
+  b) Calculates the fold change (treatment mean/control mean) for each sample
+  c) Prints the results, and identifies which samples show significant changes (use a threshold of fold change > 2.0 OR fold change < 0.5)
 
 
 Additional Resources
