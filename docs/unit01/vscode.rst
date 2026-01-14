@@ -30,79 +30,30 @@ You should see the prompt change in your terminal. The two steps are depicted be
 **Step 1:** SSH from your laptop to student-login:
 
 .. code-block:: console
-   :emphasize-lines: 1-3,71
+   :emphasize-lines: 1-3,22
 
    [local]$ ssh username@student-login.tacc.utexas.edu
    (username@student-login.tacc.utexas.edu) Password:
    (username@student-login.tacc.utexas.edu) TACC_Token:
    Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.4.0-216-generic x86_64)
-
-    * Documentation:  https://help.ubuntu.com
-    * Management:     https://landscape.canonical.com
-    * Support:        https://ubuntu.com/pro
-
-    System information as of Mon 12 Jan 2026 07:00:18 PM CST
-
-     System load:  0.03               Processes:               242
-     Usage of /:   82.6% of 95.86GB   Users logged in:         1
-     Memory usage: 22%                IPv4 address for ens192: 129.114.4.186
-     Swap usage:   6%
-
-    * Ubuntu 20.04 LTS Focal Fossa has reached its end of standard support
-      on 31 May 2025.
-
-      For more details see:
-      https://ubuntu.com/20-04
-
-   Expanded Security Maintenance for Infrastructure is not enabled.
-
-   19 updates can be applied immediately.
-   To see these additional updates run: apt list --upgradable
-
-   87 additional security updates can be applied with ESM Infra.
-   Learn more about enabling ESM Infra service for Ubuntu 20.04 at
-   https://ubuntu.com/20-04
-
-   New release '22.04.5 LTS' available.
-   Run 'do-release-upgrade' to upgrade to it.
-
-
+   ...
    ------------------------------------------------------------------------------
    Welcome to the Texas Advanced Computing Center
-      at The University of Texas at Austin
+   at The University of Texas at Austin
 
    ** Unauthorized use/access is prohibited. **
 
-   If you log on to this computer system, you acknowledge your awareness
-   of and concurrence with the UT Austin Acceptable Use Policy. The
-   University will prosecute violators to the full extent of the law.
+    If you log on to this computer system, you acknowledge your awareness
+    of and concurrence with the UT Austin Acceptable Use Policy. The
+    University will prosecute violators to the full extent of the law.
 
-   TACC Usage Policies:
-   http://www.tacc.utexas.edu/user-services/usage-policies/
+    TACC Usage Policies:
+    http://www.tacc.utexas.edu/user-services/usage-policies/
 
-   TACC Support:
-   https://portal.tacc.utexas.edu/tacc-consulting
-
+    TACC Support:
+    https://portal.tacc.utexas.edu/tacc-consulting
    ------------------------------------------------------------------------------
-   Last login: Mon Jan 12 18:59:17 2026 from 104.181.159.169
-   ------------------------------------------------------------------------------
-   Welcome to the Texas Advanced Computing Center
-      at The University of Texas at Austin
-
-   ** Unauthorized use/access is prohibited. **
-
-   If you log on to this computer system, you acknowledge your awareness
-   of and concurrence with the UT Austin Acceptable Use Policy. The
-   University will prosecute violators to the full extent of the law.
-
-   TACC Usage Policies:
-   http://www.tacc.utexas.edu/user-services/usage-policies/
-
-   TACC Support:
-   https://portal.tacc.utexas.edu/tacc-consulting
-
-   ------------------------------------------------------------------------------
-   eriksf@student-login:~$
+   username@student-login:~$
 
 
 **Step 2:** SSH from student-login.tacc.utexas.edu to your VM:
@@ -110,7 +61,7 @@ You should see the prompt change in your terminal. The two steps are depicted be
 .. code-block:: console
    :emphasize-lines: 1,21
 
-   [student-login.tacc.utexas.edu]$ ssh mbs-337
+   username@student-login:~$ ssh mbs-337
 
    System information as of Tue Jan 13 01:13:53 UTC 2026
 
@@ -153,21 +104,20 @@ There are a few advantages to this approach, including:
 
 Installing VSCode on Your Laptop
 --------------------------------
-Hopefully everyone had a chance to install VSCode onto their computer last time. If not, here are instructions again,
-for Windows, Mac, and Linux:
+Here are the instructions for installing VSCode on your computer, based on your operating system:
 
  * Linux -- Follow the instructions `here. <https://code.visualstudio.com/docs/setup/linux>`_
  * Mac -- Follow the instructions `here. <https://code.visualstudio.com/docs/setup/mac>`_
  * Windows -- Follow the instructions `here. <https://code.visualstudio.com/docs/setup/windows>`_
 
-Remember, you only need to follow the first step to install the actual VSCode application. Next, we're going to
-install the following additional plugins.
+**You only need to follow the first step to install the actual VSCode application**. Next, we're going to install the following additional plugins. 
 
 Installing the Necessary VSCode Plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Open the Extensions view by either clicking Extensions from the left navbar (the icon with two
-squares and a diamond) or by using the Ctrl+Shift+X (Linux/Windows) or Cmd+Shift+X (Mac) key combination.
-You will see the extensions organized into listed of "Installed", "Recommended", etc. You can also
+squares and a diamond) or by using the ``Ctrl+Shift+X`` (Linux/Windows) or ``Cmd+Shift+X`` (Mac) key combination.
+
+You will see the extensions organized into lists of "Installed", "Recommended", etc. You can also
 search for extensions by typing into the search box. Install the following extensions:
 
 * Python (from Microsoft) -- Core Python development functionality.
@@ -204,40 +154,98 @@ and then use that alias in VSCode.
 
 For more details and alternatives, see the documentation for Remote SSH [1].
 
-1. Install VSCode and SSH client on your machine, if not already installed.
+1. Install VSCode and SSH client on your machine (if not already installed).
 
-2. Install the Remote-SSH client. Go to Extensions (Ctrl+Shift+X or Cmd+Shift+X on Mac), type "Remote-SSH" and click ``Install``
+2. Install the Remote-SSH client (if not already installed -- go to Extensions (``Ctrl+Shift+X`` or ``Cmd+Shift+X`` on Mac), type "Remote-SSH" and click ``Install``)
 
-3. On your local laptop, edit the file ~/.ssh/config to contain the following:
+3. **Set up SSH keys for passwordless authentication**
 
-.. code-block:: bash
+    First, check if you already have SSH keys on your local machine:
 
-    Host student-login-jump
-        HostName student-login.tacc.utexas.edu
-        User your_tacc_username
-        IdentityFile ~/.ssh/id_rsa
-        ForwardAgent yes
+    .. code-block:: console
 
-    Host mbs-337
-        HostName 129.114.xx.yy
-        User ubuntu
-        IdentityFile ~/.ssh/id_rsa
-        ProxyJump student-login-jump
+        $ ls ~/.ssh/id_*
 
-Here we have added two entries that will use a proxy jump to first SSH to
-``student-login.tacc.utexas.edu`` before SSHing to the actual student VM.
+    If you see files like ``id_rsa``, ``id_ed25519``, or ``id_ecdsa``, you already have SSH keys.
+    Note which one you have (we'll use ``id_ed25519`` as an example, but use whichever key type you have).
+
+    If you don't have SSH keys, generate one:
+
+    .. code-block:: console
+
+        $ ssh-keygen -t ed25519 -C "your_email@example.com"
+
+    Press ``Enter`` to accept the default file location (``~/.ssh/id_ed25519``) and optionally set a passphrase. 
+
+4. **Add your public key to the mbs-337 vm**
+
+    You now need to copy your public key to the ``~/.ssh/authorized_keys`` file on your VM.
+    First, get your public key:
+
+    **On Mac:**
+
+    .. code-block:: console
+
+        $ pbcopy < ~/.ssh/id_ed25519.pub 
+
+    This copies your public key to your clipboard.
+
+    **On Windows (PowerShell):**
+
+    .. code-block:: powershell
+
+        PS> Get-Content ~/.ssh/id_ed25519.pub | Set-Clipboard
+
+    Now, SSH to your VM using the two-step process described earlier:
+
+    .. code-block:: console
+
+        [local]$ ssh username@student-login.tacc.utexas.edu
+        (enter password)
+        (enter MFA token)
+        [student-login]$ ssh mbs-337
+
+    Once connected to your VM, add your public key to the authorized_keys file:
+
+    .. code-block:: console
+
+        [ubuntu@mbs-337]$ vim ~/.ssh/authorized_keys
+
+    In vim, press ``i`` to enter insert mode, paste your public key, then press ``Esc`` and type ``:wq`` to save and exit.
+
+    While you are here, get the IP address for your VM (you'll need this for the SSH config in step 5):
+
+    .. code-block:: console
+
+        [ubuntu@mbs-337]$ curl ip.me  
+        129.114.xx.yy # Copy this IP address
+
+5. **Create SSH config file**
+
+    On your local laptop, edit the file ``~/.ssh/config`` to contain the following:
+
+    .. code-block:: bash
+
+        Host student-login-jump
+            HostName student-login.tacc.utexas.edu
+            User your_tacc_username
+            IdentityFile ~/.ssh/id_ed25519
+            ForwardAgent yes
+
+        Host mbs-337
+            HostName 129.114.xx.yy
+            User ubuntu
+            IdentityFile ~/.ssh/id_ed25519
+            ProxyJump student-login-jump
 
 .. note::
 
-    You need the 129.114.xx.yy IP address for your server in the above (i.e., the values for "xx" and "yy").
-    You can use the command ``ip addr`` or ``curl ip.me`` on your student VM to get the
-    address. Alternatively, look on the ``student-login.tacc.utexas.edu`` server for a file ``~/.ssh/config`` which should
-    list your IP there.
+    * Replace ``your_tacc_username`` with your actual TACC username
+    * Replace ``id_ed25519`` with your actual key type if different (e.g., ``id_rsa``)
+    * Insert the IP address for your server here (the output of ``curl ip.me`` on your student VM)
 
-
-Each entry in the config file instructs
-SSH about how to connect to that host. Once entered, SSH'ing to a host in the config is as easy
-as using the alias:
+Each entry in the config file instructs SSH about how to connect to that host.
+Once entered, SSH'ing to a host in the config is as easy as using the alias:
 
 .. code-block:: bash
 
@@ -246,40 +254,41 @@ as using the alias:
 Notes:
   * In the first line, the part after ``Host`` is the alias.
     You can use any name you like, but it should be memorable.
-  * The string after ``User`` should be the remote account to connect with.
   * The part after ``HostName`` (i.e., ``student-login.tacc.utexas.edu`` or ``129.114.xx.yy``) should be the actual domain name of the login machine or the IP address of your student server.
-
-4. Now, in a VSCode window, open the Command Pallette (Ctrl+Shift+P or Cmd+Shift+P on Mac) and type
-"remote-ssh: Connect to host", and then:
-
-4a) You should see the alias appear (in my case, I have additional aliases, but the ``mbs-337`` is the one we want).
-If you do not see it, there is probably an issue with your configs.
-
-.. figure:: ./images/VSCode-remote-ssh-1.png
-    :width: 1000px
-    :align: center
-    :alt: Remote SSH drop down with aliases from the ssh config file
-
-    Remote SSH drop down with aliases from the ssh config file
+  * The string after ``User`` should be the remote account to connect with.
 
 
-4b) The first time, you may be prompted to select the OS type (choose Linux)
+6. **Connect VSCode to your VM**
 
-4c) Once you select the OS type, a new VSCode window will open up and connect to the machine.
+    Now, in a VSCode window, open the Command Palette (``Ctrl+Shift+P`` or ``Cmd+Shift+P`` on Mac) and type
+    "remote-ssh: Connect to host", and then:
 
-.. figure:: ./images/VSCode-remote-ssh-2.png
-    :width: 1000px
-    :align: center
-    :alt: New VSCode window with Remote SSH
+ a. You should see the alias appear (in my case, I have additional aliases, but the ``mbs-337`` is the one we want). If you do not see it, there is probably an issue with your configs.
 
-    New VSCode window with Remote SSH
+    .. figure:: ./images/VSCode-remote-ssh-1.png
+        :width: 1000px
+        :align: center
+        :alt: Remote SSH drop down with aliases from the ssh config file
+
+        Remote SSH drop down with aliases from the ssh config file
+
+ b. The first time, you may be prompted to select the OS type (choose Linux)
+
+ c. Once you select the OS type, a new VSCode window will open up and connect to the machine.
+
+    .. figure:: ./images/VSCode-remote-ssh-2.png
+        :width: 1000px
+        :align: center
+        :alt: New VSCode window with Remote SSH
+
+        New VSCode window with Remote SSH
 
 
 .. note::
 
     If you get a "connection timeout" error, you may need to increase the Remote SSH connection
     timeout in your VSCode settings. To do that, do the following:
-    1. Open the Command Palette in VS Code (Ctrl+Shift+P or Cmd+Shift+P on Mac).
+    1. Open the Command Palette in VS Code (``Ctrl+Shift+P`` or ``Cmd+Shift+P`` on Mac).
     2. Type and select "Preferences: Open Settings UI".
     3. Search for "Remote.SSH: Connect Timeout".
     4. Change the value from the default 15 to 30 (or higher, like 60).

@@ -22,77 +22,32 @@ Topics covered in this module include:
 * Importing libraries (import, random, names, pip)
 
 
-Log in to the Class Server
---------------------------
+Log in to the Class Server via VSCode
+-------------------------------------
 
-All computing for this course will take place on Linux virtual machines (VMs). To reach them, you will connect in two steps:
+All computing for this course will take place on Linux virtual machines (VMs). 
+For this lesson and following lessons, we'll be using the VSCode IDE to connect to your student VMs. 
 
-1. First, we'll connect to ``student-login.tacc.utexas.edu``. This is a persistent Linux VM at TACC that acts as a login gateway (jump host). 
-2. Second, from ``student-login``, you'll connect to your own personal course VM. This VM is named ``mbs-337`` and is hosted on JetStream2. 
+.. note:: 
 
-To connect from your own computer, you will use the **Secure Shell (SSH)** protocol through a CLI or an SSH client. The exact steps depend slightly on your computer's operating system. 
+   **If you've already set up VSCode Remote-SSH you're all set!** 
+   VSCode will handle the connection to your VM automatically. You can use VSCode's 
+   integrated terminal to run the interactive Python interpreter and execute Python scripts. 
+   All the examples in this guide can be run directly from VSCode.
 
-.. note::
-
-   Replace ``username`` with your TACC username.
-
-**Mac / Linux**
-
-.. code-block:: console
-
-   Open the application 'Terminal'
-   ssh username@student-login.tacc.utexas.edu
-   (enter password)
-   (enter MFA token)
-
-**Windows (use WSL or an SCP client like PuTTY)**
-
-.. code-block:: console
-
-   Open the application 'PuTTY'
-   Enter Host Name: student-login.tacc.utexas.edu
-   Click 'Open'
-   (enter username)
-   (enter password)
-   (enter MFA token)
-
-**Chromebook** 
-
-.. code-block:: console
-
-   Open Settings
-   Go to Advanced -> Developers
-   Enable Linux development environment
-   Open Terminal app
-   ssh username@student-login.tacc.utexas.edu
-   (enter password)
-   (enter MFA token)
-
-Once connected to ``student-login``, connect to your course VM:
-
-.. code-block:: console
-
-   ssh mbs-337
+   If you haven't set up VSCode yet, please follow the VSCode setup instructions before proceeding.
 
 If you can't access the class server yet, a local or web-based Python 3
 environment will work for this guide. However, you will need to access the class
 server for future lectures.
 
-Try this `Python 3 environment in a browser <https://www.katacoda.com/scenario-examples/courses/environment-usages/python>`_.
-
-
-.. note::
-
-   For the first few sections below, we will be using the Python interpreter
-   in *interactive mode* to try out different things. Later on when we get to
-   more complex code, we will be saving the code in files (scripts) and invoking
-   the interpreter non-interactively.
+Try this `Python 3 environment in a browser <https://www.brython.info/tests/console.html?lang=en>`_.
 
 
 Data Types and Variables
 ------------------------
 
-Start up the interactive Python interpreter:
+Start up the interactive Python interpreter in VSCode's integrated terminal:
 
 .. code-block:: console
 
@@ -158,7 +113,7 @@ want to convert the string to integer or float as appropriate:
 
 What do you notice about the above ``type()`` commands? Is the output what you expected?
 
-Using ``str()`` prints a string of the original variable to the console, but it does not actually change the original variable itslef —
+Using ``str()`` prints a string of the original variable to the console, but it does not actually change the original variable itself —
 ``gene_count`` and ``protein_mass`` are still whatever you assigned earlier (an integer and a float, respectively).
 
 If you want ``gene_count`` and ``protein_mass`` to become strings, you must reassign the variable:
@@ -517,7 +472,7 @@ Here are some examples:
    # Prints: 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95
 
 **Nested loops** are loops inside other loops. The inner loop completes all its iterations for each
-iteration of the outer loop. This is useful when you need to iterate over multiple dimenensions of data.
+iteration of the outer loop. This is useful when you need to iterate over multiple dimensions of data.
 
 For example, if you have three replicates of three samples under three conditions, you can print all combinations of
 replicates, samples, and conditions like so:
@@ -533,13 +488,6 @@ In the code above, the ``f''`` prefix before a string creates an **f-string** (f
 which allows you to embed Python expressions directly inside the string. Any expression inside curly braces 
 ``{}`` will be evaluated and inserted into the string. 
 
-.. note::
-
-   The code is getting a little bit more complicated now. It will be better to
-   stop running in the interpreter's interactive mode, and start writing our
-   code in Python scripts.
-
-
 Functions
 ---------
 
@@ -547,12 +495,26 @@ Functions
 pass data into functions, and have functions return data to us. Functions are
 absolutely essential to keeping our code clean and organized.
 
-On the command line, use a text editor to start writing a Python script:
+.. note::
 
-.. code-block:: console
+   The code is getting a little bit more complicated now. It will be better to
+   stop running in the interpreter's interactive mode, and start writing our
+   code in Python scripts.
 
-   [mbs-337]$ vim function_test.py
+Creating and Running Python Scripts in VSCode
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+From this point forward, we'll be writing Python code in files (scripts) rather than using the interactive interpreter.
+We'll use VSCode to create and edit these files.
+
+If you haven't already, make sure you're connected to your VM using VSCode Remote-SSH
+(see the VSCode setup instructions earlier in this unit).
+
+To create a new Python file in VSCode:
+
+1. In VSCode, click **File → New File** (or press ``Ctrl+N`` / ``Cmd+N``)
+2. Save the file with a ``.py`` extension (e.g., ``function_test.py``) by pressing ``Ctrl+S`` / ``Cmd+S``
+3. Make sure you're saving in the ``/home/ubuntu`` directory (or a subdirectory you've created)
 
 Enter the following text into the script:
 
@@ -564,7 +526,7 @@ Enter the following text into the script:
 
    print_gene_name()
 
-After saving and quitting the file, execute the script with the ``python3`` executable:
+To execute the script, open the integrated terminal in VSCode (``Ctrl+` `` or ``Cmd+` ``) and run:
 
 .. code-block:: console
 
@@ -573,9 +535,9 @@ After saving and quitting the file, execute the script with the ``python3`` exec
 
 .. note::
 
-   Future examples from this point on will assume familiarity with using the
-   text editor and executing the script. We will just be showing the contents of
-   the script and console output.
+   Future examples from this point on will assume familiarity with using VSCode
+   to create and edit Python files, and executing scripts using the integrated terminal.
+   We will just be showing the contents of the script and console output.
 
 More advanced functions can take parameters and return results. Before we look at an example,
 let's understand **dot notation** and **methods**. 
@@ -624,7 +586,7 @@ Let's write a function to calculate the GC content of our DNA sequence:
 
 The function above does the following:
 
-1. The function definition takes on parameter called ``sequence`` (a DNA sequence string)
+1. The function definition takes one parameter called ``sequence`` (a DNA sequence string)
 2. It then counts how many 'G' and 'C' bases are in the string, and adds them together to get the total GC count
 3. Then, it calculates the total number of bases in the sequence
 4. Finally, it calculates the percentage by dividing GC count by total bases and multiplying by 100. The ``return`` statement sends this value back to whoever called the function.
@@ -723,7 +685,7 @@ the line *including* its trailing newline character:
    f.readline()  # returns "A\n"
 
 ``print()`` adds its own newline character by default. The result you end up with is
-two newline chacters per line:
+two newline characters per line:
 
 .. code-block:: text
 
@@ -848,7 +810,7 @@ downloaded to your local environment using a tool called ``pip3``.
 For example, if you wanted to download the
 `BioPython <https://pypi.org/project/biopython/>`_ library (a popular library for
 biological data analysis) and use it in your Python code, you would first create a 
-virtual environment:
+virtual environment in VSCode's integrated terminal:
 
 .. code-block:: bash
 
@@ -865,7 +827,7 @@ virtual environment:
    **Virtual environments** are isolated Python environments that allow you to
    install packages without affecting the system Python installation. This is 
    the recommended way to manage Python packages. After activating a virtual 
-   environment you'll see ``myenv``) in your prompt, and you can safely use 
+   environment you'll see ``(myenv)`` in your prompt, and you can safely use 
    ``pip3 install`` to install new Python packages to this virtual environment.
 
    To deactivate the virtual environment later, simply type ``deactivate``. 
