@@ -158,11 +158,11 @@ For more details and alternatives, see the documentation for Remote SSH [1].
 
 2. Install the Remote-SSH client (if not already installed -- go to Extensions (``Ctrl+Shift+X`` or ``Cmd+Shift+X`` on Mac), type "Remote-SSH" and click ``Install``)
 
-3. **Set up SSH keys for VM authentication**
+3. **Set up SSH keys for VSCode Remote-SSH**
 
     VSCode Remote-SSH requires SSH key authentication to connect to remote servers. Your course VMs 
     (``mbs-337``) are Jetstream2 VMs that cannot be accessed directly from the internet - they are 
-    behind TACC's firewall. To reach them, VSCode must connect through a jump host called 
+    behind TACC's firewall. To reach them, VSCode must connect through a bastion (jump host) called 
     ``student-login``, which is a persistent VM at TACC that also exists behind TACC's firewall. 
     The SSH keys allow VSCode to authenticate to your VM through this jump host. You will still need 
     to provide your username, password, and MFA token when connecting to ``student-login``, but once 
@@ -314,13 +314,11 @@ complete listing.
 Summary
 -------
 
-That was a lot of steps! Let's make sure we understand what we just did:
-
 **The Challenge:**
 We want to edit files and run code through the VSCode IDE interface, but we want everything to actually 
 happen on the VM instead of our local machine. However, your course VMs are Jetstream2 VMs that cannot 
 be accessed directly from the internet - they are behind TACC's firewall. To reach them, we must connect 
-through a jump host called ``student-login``, which is a persistent VM at TACC.
+through a bastion (jump host) called ``student-login``, which is a persistent VM at TACC.
 
 **What We Set Up:**
 
