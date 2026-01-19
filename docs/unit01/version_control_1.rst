@@ -49,7 +49,7 @@ see what changed, when it changed, and revert to a working version.
 Once you think of changes as separate from the document itself, you can then
 think about "playing back" different sets of changes on the base document,
 ultimately resulting in different versions of that document. For example,
-two researchers can work on independent sets of changes on a bioinformatics pipline.
+two researchers can work on independent sets of changes on a bioinformatics pipeline.
 One could be working on the quality filtering step, and the other working on
 differential expression.
 
@@ -167,7 +167,7 @@ If we use ``ls -a``, we can see that Git has created a hidden directory called
    [mbs-337]$ ls -a
    ./  ../  .git/
 
-Use the ``find`` command to get a overview of the contents of the ``.git/``
+Use the ``find`` command to get an overview of the contents of the ``.git/``
 directory:
 
 .. code-block:: console
@@ -243,7 +243,7 @@ scripts we were working on (or any other files) and check the status again:
 Tracking Changes
 ----------------
 
-We will use this repository track some changes we are about to make to our
+We will use this repository to track some changes we are about to make to our
 example Python scripts. Above, Git mentioned that it found one
 "Untracked file". This means there are files in this current directory that Git
 isn't keeping track of. We can instruct Git to start tracking a file using
@@ -328,7 +328,7 @@ project's history using ``git log``:
 
       start tracking first Python script
 
-The command ``git log`` lists all commits  made to a repository in reverse
+The command ``git log`` lists all commits made to a repository in reverse
 chronological order. The listing for each commit includes:
 
 * the commit's full identifier (which starts with the same characters as the
