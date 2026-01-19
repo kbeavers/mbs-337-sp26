@@ -412,39 +412,6 @@ bibliography entries, but not commit some of our work drafting the conclusion
 (which we haven’t finished yet).
 
 
-Directories in Git
-------------------
-
-There are a couple important facts you should know about directories in Git.
-First, Git does not track directories on their own, only files within them. Try
-it for yourself:
-
-.. code-block:: console
-
-   [mbs-337]$ mkdir directory
-   [mbs-337]$ git status
-   [mbs-337]$ git add directory
-   [mbs-337]$ git status
-
-Note, our newly created empty directory ``directory`` does not appear in the
-list of untracked files even if we explicitly add it (*via* ``git add``) to our
-repository.
-
-Second, if you create a directory in your Git repository and populate it with files,
-you can add all files in the directory at once by:
-
-.. code-block:: console
-
-   [mbs-337]$ git add <directory-with-files>
-
-.. tip::
-
-   A trick for tracking an empty directory with Git is to add a hidden file to
-   the directory. People sometimes will label this ``.gitcanary``. Adding and
-   committing that file to the repo's history will cause the directory it is in
-   to also be tracked.
-
-
 Restoring Old Versions of Files
 -------------------------------
 
@@ -522,6 +489,38 @@ Again, we can put things back the way they were by using ``git checkout``:
 
    [mbs-337]$ git checkout HEAD python_test_1.py
    # back to the most recent version
+
+Directories in Git
+------------------
+
+There are a couple important facts you should know about directories in Git.
+First, Git does not track directories on their own, only files within them. Try
+it for yourself:
+
+.. code-block:: console
+
+   [mbs-337]$ mkdir directory
+   [mbs-337]$ git status
+   [mbs-337]$ git add directory
+   [mbs-337]$ git status
+
+Note, our newly created empty directory ``directory`` does not appear in the
+list of untracked files even if we explicitly add it (via ``git add``) to our
+repository.
+
+Second, if you create a directory in your Git repository and populate it with files,
+you can add all files in the directory at once by:
+
+.. code-block:: console
+
+   [mbs-337]$ git add <directory-with-files>
+
+.. tip::
+
+   A trick for tracking an empty directory with Git is to add a hidden file to
+   the directory. People sometimes will label this ``.gitcanary``. Adding and
+   committing that file to the repo's history will cause the directory it is in
+   to also be tracked.
 
 
 Summing Up
