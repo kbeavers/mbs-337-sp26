@@ -3,8 +3,8 @@ Working with JSON
 
 In this hands-on module, we will learn how to work with the JSON data format.
 JSON (JavaScript Object Notation) is a powerful, flexible, and lightweight data
-format that we see a lot throughout this course, especially when working with
-web apps and REST APIs.
+format that we see a lot in the biosciences, especially when working with
+databases like UniProt, web APIs, and bioinformatics tools.
 
 After going through this module, students should be able to:
 
@@ -17,20 +17,37 @@ After going through this module, students should be able to:
 JSON Basics
 -----------
 
-JSON (JavaScript Object Notation) is a lightweight, human-readable text format for 
-storing and working with data, especially in web applications and 
-API servers like what we will be building this semester. The name comes from the 
-fact that the syntax was derived from JavaScript, but the JSON format 
-is an open standard that is used in virtually all modern programming languages. 
+JSON (JavaScript Object Notation) is a lightweight, human-readable text format used to
+store, organize, and exchange data. You can think of JSON as a structured way to store
+information so that both humans and computers can easily read it. 
 
-The JSON format is defined recursively from a set of basic types, as follows:
+Although JSON was originally built on JavaScript syntax, it is now an open, language-
+independent standard. It is supported by nearly all modern programming languages. 
+Many bioinformatics tools and databases rely on JSON to store and exchange data. 
 
-* Primitive types: including numeric types (integers and floats), strings, and
-  booleans,
-* Objects: (also called "dictionaries") structured as ``name: value`` pairs using ``{ }``, and 
-* Arrays: (also called "lists") structured as a sequence of items using ``[ ]``. 
+JSON is built from a small number of basis data types. These types can be combined
+and nested inside one another, which allows JSON to represent complex biological 
+data in a structured way.
 
-The following are basic example of JSON objects: 
+1. **Primitive types**: These are the simplest possible values in JSON:
+ * Numbers: integers and floating-point values (``-1``, ``12``, ``3.14``)
+ * Strings: text values, always written in double quotes (``"abc"``)
+ * Booleans: logical true/false values (must be written in lowercase: ``true``, ``false``)
+ * Null: represents missing or unknown data (``null``)
+
+2. **Objects (also called dictionaries)**: Objects store named values using ``name: value`` pairs
+and are enclosed in curly braces ``{ }``.
+ * The name (key) must always be a string
+ * Each key must be unique
+ * The value can be *any valid JSON type* (including another object or a list)
+
+3. **Arrays (also called lists)**: Arrays store ordered collections of values and are enclosed
+in square brackets ``[ ]``.
+ * Values can be of mixed types
+ * Duplicate values are allowed
+ * Items are separated by commas
+
+Each of the following is a valid JSON value:
 
 .. code-block:: python3
 
@@ -51,86 +68,60 @@ The following are basic example of JSON objects:
 
   # a JSON dictionary -- keys must be strings and must be unique 
   {
-    "foo": "abc", 
-    "bar": -1, 
-    "key": false 
+    "key1": "abc", 
+    "key2": -1, 
+    "key3": false 
   }
 
-The recursive nature of JSON objects means combinations of valid JSON 
-documents are also valid. For example, dictionary values can be lists, 
-and list values can in turn be dictionaries, or other lists, etc. 
-Here is a more complex JSON object: 
+The recursive nature of JSON objects means that any valid JSON value can be placed inside another
+JSON structure:
 
 .. code-block:: json 
 
     [
         {
-          "id": 1, 
-          "username": "jstubbs", 
-          "is_student": false, 
-        }, 
+        "id": 1,
+        "username": "kbeavers",
+        "is_student": false
+        },
         {
-          "id": 2, 
-          "username": "cyz", 
-          "is_student": true 
+        "id": 2,
+        "username": "cyz",
+        "is_student": true
         }
     ]
 
+In this example:
+ * The outer structure is a list
+ * Each item in the list is a dictionary
+ * Each dictionary stores metadata about one user
 
-The universality of this data structure makes it ideal for exchanging
-information between programs written in different languages and web apps. 
-Note that JSON offers a lot of flexibility on the placement of white space 
-and newline characters. Here is another example where types have been 
-combined to form complex data structures:
-
-.. code-block:: JSON
-
-   {
-     "department": "COE",
-     "number": 332,
-     "name": "Software Engineering and Design",
-     "inperson": true,
-     "finalgroups": null,
-     "instructors": ["Joe", "Charlie", "Nathan"],
-     "prerequisites": [
-       {"course": "COE 322", "instructor": "Victor"},
-       {"course": "SDS 322", "instructor": "Victor"}
-     ]
-   }
-
-We'll be working through some examples by writing some code on your student VM. We'll use VSCode for these 
-interactions. Open a VSCode RemoteSSH session (Cmd+Shift+P -> RemoteSSH) and create a new 
-terminal (Cmd+Shift+P -> Terminal: Create New Terminal). 
-
-
-Within the terminal inside VSCode on your class VM, navigate to your ``uv`` project directory that you created 
-last time (``class-work``) and create a new directory within there called ``working-with-json``:
-
-.. code-block:: console 
-
-    [coe332-vm]$ cd class-work
-    [coe332-vm]$ mkdir working-with-json
-
-(You can also right-click from within the file explorer view and select New Folder...)
-
-Download this sample JSON files into that folder using the ``wget`` command, or
-click `this link <https://raw.githubusercontent.com/TACC/coe-332-sp26/main/docs/unit02/sample-data/Meteorite_Landings_Simple.json>`_
-and cut and paste the contents into a file called ``Meteorite_Landings.json``:
-
-.. code-block:: console
-
-   [coe332-vm]$ wget https://raw.githubusercontent.com/TACC/coe-332-sp26/main/docs/unit02/sample-data/Meteorite_Landings_Simple.json
-
-
-
-.. note::
-
-   The Meteorite Landing data is adapted from a data set provided by The
-   Meteoritical Society here: https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh
-
+This pattern (a list of records, where each record is a dictionary) is extremely common in computational biology and bioinformatics.
 
 EXERCISE
 ~~~~~~~~
+
+We'll be working through some examples by writing some code on your student VM. We'll use VSCode for these 
+interactions. Open a VSCode RemoteSSH session (``Cmd+Shift+P`` -> ``RemoteSSH``) and create a new 
+terminal (``Cmd+Shift+P`` -> ``Terminal: Create New Terminal``). 
+
+Within the terminal inside VSCode on your class VM, navigate to your ``mbs-337`` project directory that you created 
+last time and create a new directory within there called ``working-with-json``:
+
+.. code-block:: console 
+
+    [vm]$ cd mbs-337
+    [vm]$ mkdir working-with-json
+    [vm]$ cd working-with-json
+
+(You can also right-click from within the file explorer view and select New Folder...)
+
+Find a sample JSON file using `this link <./sample-data/uniprot_proteins_simple.json>`_ and copy and paste the contents into a new file called ``Protein_List.json``.
+
+.. note::
+
+   The protein data is adapted from `UniProt <https://www.uniprot.org/>`_, a comprehensive resource for protein
+   sequence and functional information.
 
 Plug this file (or some of the above samples) into an online JSON validator
 (e.g. `JSONLint <https://jsonlint.com/>`_). Try making manual changes to some of
@@ -140,14 +131,17 @@ the entries to see what breaks the JSON format.
 Read JSON into a Python3 Script
 -------------------------------
 
-The ``json`` Python3 library is part of the Python3 Standard Library, meaning it
-can be imported without having to be installed by ``uv````. Start editing a new
-Python3 script called ``json_ex.py`` within the ``working-with-json`` directory 
-using VSCode by right-click'ing the ``working-with-json`` folder, selecting 
-``New File...`` and entering 
-the name (``json_ex.py``) into the little box that opens up. 
-The main file editing panel will also open up the file for editing. 
+The ``json`` library is part of Python's standard library, which means it's already 
+available — you don't need to install it or set up a virtual environment. 
 
+Create a new Python script called ``json_ex.py`` in your ``working-with-json`` directory. 
+In VSCode, you can do this by:
+
+* Within the file explorer, open the ``working-with-json`` directory
+* Click the ``New File`` button next to the ``working-with-json`` text (icon looks like a file with a plus sign)
+* Typing ``json_ex.py`` as the filename
+
+The file will open automatically in the editor for you to start coding. 
 
 .. warning::
 
@@ -155,7 +149,7 @@ The main file editing panel will also open up the file for editing.
    is a script called "json.py" in the same folder, it will import that instead
    of the actual ``json`` library.
 
-The code you need to read in the JSON file of state names and abbreviations into
+The code you need to read the JSON file of protein data into
 a Python3 object is:
 
 .. code-block:: python3
@@ -163,525 +157,535 @@ a Python3 object is:
 
    import json
 
-   with open('Meteorite_Landings_Simple.json', 'r') as f:
-       ml_data = json.load(f)
+   with open('Protein_List.json', 'r') as f:
+       prot_data = json.load(f)
 
-Only three simple lines! We ``import json`` from the standard library so that we
-can work with the ``json`` module. We use the safe ``with open...`` statement to
-open the file we downloaded read-only into a filehandle called ``f``. Finally,
-we use the ``load()`` method of the ``json`` class to load the contents of the
-JSON file into our new ``ml_data`` object.
+Only three simple lines!
+
+* We ``import json`` from the standard library so that we can work with the ``json`` module. 
+* We use the safe ``with open...`` statement to open the file read-only into a filehandle called ``f``. 
+* Finally, we use the ``load()`` function from the ``json`` module to load the contents of the JSON file into our new ``prot_data`` object.
+
+.. figure:: ./images/working-with-json-screen.jpeg
+   :width: 1000px
+   :align: center
+
+   Your VS Code screen should look like this
 
 EXERCISE
 ~~~~~~~~
-Add code to your script to print out the ``ml_data`` object to the screen. 
+
+Add code to your script to print out the ``prot_data`` object to the screen. 
 Execute the script in the VSCode terminal. 
 
-*Solution.* What do we need to add to the script to print the ``ml_data`` object and 
-where should we add it? 
+.. toggle:: Click to see the answer
 
-All that is required is that we add a ``print(ml_data)`` to the end of the script. 
-We can execute the script in the terminal using the following command: 
+   All that is required is that we add a ``print(prot_data)`` to the end of the script.
 
-.. code-block:: console 
+   .. code-block:: python3
+      :linenos:
 
-  [coe332-vm]$ python json_ex.py 
+      import json
+
+      with open('Protein_List.json', 'r') as f:
+          prot_data = json.load(f)
+          print(prot_data)
+
+   We can execute the script in the terminal using the following command:
+
+   .. code-block:: console
+
+      [vm]$ python3 json_ex.py
 
 
 EXERCISE
 ~~~~~~~~
+Within the Python3 interpreter's interactive mode, let's:
 
-Explore the types of the various objects within ``ml_data`` by making calls to the ``type()`` 
-function. In addition, use the ``keys()`` function to see what keys are available within the 
-dictionaries. Finally, ``print()`` each of these as necessary to be sure
-you know what each is. Be able to explain the output of each call to ``type()``
-and ``print()``.
+* Explore the types of the various objects within ``prot_data`` by making calls to the ``type()`` function.
+* Use the ``keys()`` function to see what keys are available within the dictionaries. 
+* Finally, ``print()`` each of these as necessary to be sure you know what each is. 
+
+Be able to explain the output of each call to ``type()`` and ``print()``.
+
+.. code-block:: console
+
+    [vm]$ python3
 
 .. code-block:: python3
-   :linenos:
 
-   import json
-
-   with open('Meteorite_Landings_Simple.json', 'r') as f:
-       ml_data = json.load(f)
-
-   print(type(ml_data))
-   print(type(ml_data['meteorite_landings']))
-   print(type(ml_data['meteorite_landings'][0]))
-   print(type(ml_data['meteorite_landings'][0]['name']))
-
-   print(ml_data)
-   print(ml_data['meteorite_landings'])
-   print(ml_data['meteorite_landings'][0]
-   print(ml_data['meteorite_landings'][0].keys())
-   print(ml_data['meteorite_landings'][0]['name'])
-   print(type(ml_data['meteorite_landings'][0]['mass']))
-
-.. tip::
-
-   Consider doing this in the Python3 interpreter's interactive mode instead of
-   in a script. I especially enjoy using ``ipython`` for such tasks, which can 
-   be installed with ``uv add ipython``. 
+    >>> import json
+    >>>
+    >>> with open('Protein_List.json', 'r') as f:
+    ...     prot_data = json.load(f)
+    ...
+    >>> type(prot_data)
+    >>> print(prot_data.keys())
+    >>> print(prot_data['protein_entries'])
+    >>> print(type(prot_data['protein_entries']))
+    >>> print(prot_data['protein_entries'][0])
+    >>> print(type(prot_data['protein_entries'][0]))
+    >>> print(prot_data['protein_entries'][0].keys())
+    >>> print(type(prot_data['protein_entries'][0]['mass']))
+    >>> print(prot_data['protein_entries'][0]['mass'])
 
 
 Modeling Data with Pydantic: A First Look 
 ------------------------------------------
 
-If we look at an example meteorite landing from the data, we see a common structure: 
+If we look at an example protein entry from the data, we see a common structure: 
 
 .. code-block:: json 
 
     {
-      "name": "Ruiz",
-      "id": 10001,
-      "class_name": "L5",
-      "mass": 21,
-      "lat": 50.775,
-      "long": 6.08333
+      "proteinName": "Myoglobin",
+      "organism": "Homo sapiens",
+      "className": "oxygen carrier",
+      "mass": 17184,
+      "length": 154
     }
 
-Each landing is a dictionary with the following set of six keys and the associated 
+Each entry is a dictionary with the following set of five keys and the associated 
 types of the values: 
 
- * ``name`` -- string 
- * ``id`` -- integer 
- * ``class_name`` -- string 
- * ``mass`` -- integer
- * ``lat`` -- float 
- * ``long`` -- float 
+ * ``proteinName`` -- string 
+ * ``organism`` -- string
+ * ``className`` -- string (e.g., molecular function or protein family) 
+ * ``mass`` -- integer (molecular weight in Daltons)
+ * ``length`` -- integer (number of amino acids in the sequence) 
 
 The Pydantic Python library provides a powerful facility for modeling data 
 using Python types. Using Pydantic models allows us to automatically 
 validate and work with data in a robust way. 
 
-To start modeling data with Pydantic, we use define a model using 
-the ``BaseModel`` that resembled the data in our application. For example, 
-we could create a model to represent a meteorite landing with the following 
+EXERCISE
+~~~~~~~~
+
+Before we can use Pydantic, we need to install it!
+Do you remember how we install new Python libraries?
+
+.. toggle::
+
+    First, we need to activate our **Python Virtual Environment** from
+    earlier in the course. You can use the relative or full path to activate
+    the virtual environment:
+
+    .. code-block:: console
+
+        [mbs-337]$ source ../myenv/bin/activate # OR
+        [mbs-337]$ source /home/ubuntu/mbs-337/myenv/bin/activate
+        (myenv) [mbs-337]$
+    
+    
+    After activating, we will use ``pip3 install``
+    to install the Pydantic Python package library to this virtual environment.
+
+    .. code-block:: console
+
+        (myenv) [mbs-337]$ pip3 install pydantic
+
+To start modeling data with Pydantic, we define a model using 
+the ``BaseModel`` that resembles the data in our application. For example, 
+we could create a model to represent a protein entry with the following 
 code: 
 
 .. code-block:: python 
+    :linenos:
 
     from pydantic import BaseModel
 
-    class MeteoriteLanding(BaseModel):
-        name: str
-        id: int
-        class_name: str
+    class ProteinEntry(BaseModel):
+        proteinName: str
+        organism: str
+        className: str
         mass: int
-        lat: float
-        long: float 
+        length: int
 
-What is the code above doing? In the first line, we import ``BaseModel``
-from the ``pydantic`` package. We then define a new Python class called 
-``MeteoriteLanding`` to model a meteorite landing. Technically, we are 
-using Object Oriented Programming (OOP) here, defining a new class that inherits 
-from the ``BaseModel`` class. But if you haven't seen OOP, don't worry about 
-it --- we'll explain it more in a future lecture. For now, just think of 
-it as the syntax needed to define a new Pydantic model. 
+Let's break down what this code does:
 
-Within the ``class`` key word we list the fields (or members) of our model. 
-We indent each field to indicate that it belongs to the ``MeteoriteLanding``
-class. Each field has a name followed by a type, separated by a ``:``. For 
-example, the first line says that each ``MeteoriteLanding`` object has a 
-``name`` that is of type ``str``, the Python abbreviation for the string type. 
-Similarly, the next line indicates that every ``MeteoriteLanding`` has a 
-field called ``id`` of type ``int``, for integer. 
+1. In the first line, we import the ``BaseModel`` class from the ``pydantic`` library. 
+2. In line 3, we define a new Python class called ``ProteinEntry`` to model our protein data. 
+3. In lines 4-8, we define a template for our model:
+ * Each line inside the class defines a field (property) of our model
+ * Format: ``field_name: type``
+ * The indentation shows these fields belong to the ``ProteinEntry`` class
 
-Notice that our ``MeteoriteLanding`` model is a generic description of the 
-specific ``Ruiz`` meteorite landing we looked at initially. This is the 
-entire idea with data *modeling*. We have provided a template or a blue print 
-for how any and all meteorite landing objects will be structured (at least 
-in this example).
+**What is data modeling?**
+This ``ProteinEntry`` model is a *template* that describes the structure of any protein entry. 
+It's like a blueprint: the Myoglobin example we saw earlier matches this structure, and any 
+other protein entry we create must also follow this same template.
 
-Using Our PyDantic Model
+Using Our Pydantic Model
 ------------------------
 
-Now that we have a ``MeteoriteLanding`` model, what can we do with it? 
-The first thing we can do is use it to create meteorite landing objects. 
+Now that we have a ``ProteinEntry`` model, what can we do with it? 
+The first thing we can do is use it to create protein entry objects. 
 We do this by simply passing values for each of the fields, just like if 
-we were calling a funtion: 
+we were calling a function: 
 
 .. code-block:: python 
 
-    ml1 = MeteoriteLanding(name="Ruiz", 
-                           id=10001, 
-                           class_name="L5", 
-                           mass=21, 
-                           lat=50.775, 
-                           long=6.08333)
+    protein1 = ProteinEntry(proteinName="Myoglobin", 
+                            organism="Homo sapiens",
+                            className="oxygen carrier",
+                            mass=17184, 
+                            length=154)
 
-The code above works and creates a new ``MeteoriteLanding`` object called 
-``ml1``. Moreover, each of the fields is accessible using "dot notation"; 
-for example, ``ml1.name`` has type ``str`` and value ``Ruiz``. 
+The code above works and creates a new ``ProteinEntry`` object called 
+``protein1``. Moreover, each of the fields is accessible using "dot notation"; 
+for example, ``protein1.proteinName`` has type ``str`` and value ``Myoglobin``. 
 
 EXERCISE
 ~~~~~~~~
 Use dot notation and the ``type`` function to verify the values and types of 
-the other fields on ``ml1``. 
+the other fields on ``protein1``. 
 
 
-We can create additional ``MeteoriteLanding`` objects by simply passing 
-additional set of values. For example, 
+We can create additional ``ProteinEntry`` objects by simply passing 
+additional sets of values. For example, 
 
 .. code-block:: python 
 
-    ml2 = MeteoriteLanding(name="Beeler", 
-                           id=10002, 
-                           class_name="H6", 
-                           mass=720, 
-                           lat=56.18333, 
-                           long=10.23333)
+    protein2 = ProteinEntry(proteinName="Hemoglobin subunit beta", 
+                            organism="Homo sapiens", 
+                            className="oxygen carrier",
+                            mass=15998, 
+                            length=147)
 
-    ml3 = MeteoriteLanding(name="Brock", 
-                           id=10003, 
-                           class_name="EH4", 
-                           mass=107000, 
-                           lat=54.21667, 
-                           long=-113.0)
+    protein3 = ProteinEntry(proteinName="Insulin", 
+                            organism="Canis lupus familiaris", 
+                            className="hormone", 
+                            mass=12190, 
+                            length=110)
     . . . 
 
 
 What would you expect would happen though if we tried to do the following? 
 
 .. code-block:: python 
-    :emphasize-lines: 5
 
-    ml4 = MeteoriteLanding(name="Ruiz", 
-                           id=1001, 
-                           class_name="L5", 
-                           mass=21, 
-                           lat="abc", 
-                           long=6.08333)
+    protein4 = ProteinEntry(proteinName="Cytochrome c oxidase subunit 12, mitochondrial", 
+                            organism="Saccharomyces cerevisiae", 
+                            className="oxidoreductase", 
+                            mass=9788, 
+                            length="abc")
 
-There is something wrong with the data: we've stated in the data model that 
-``lat`` should be a field of type ``float``, however we are passing in the 
-value ``"abc"``, which is clearly not a floating point number. Fundamentally, 
-this kind of data is breaking from what our model has described, and this 
-could potential cause problems for our program down the line. 
-For example, what if we were to try and perform some computation witht he latitude, 
-assuming it was a floating point number. This "invalid" data could cause errors 
-or even make our program crash. We'd like to detect that in a controlled way.
+.. toggle:: Click to see explanation
 
-Indeed, if we execute the code above in an ``ipython`` shell we see the following
-error: 
+    There is something wrong with the data: we've stated in the data model that 
+    ``length`` should be a field of type ``int``, however we are passing in a string.
 
-.. code-block:: python 
+    Fundamentally, this data type is breaking from what our model has described, and this
+    could cause problems within our code down the line. For example, if we were trying to 
+    perform some kind of computation with ``length``, our code could break if we tried
+    to perform arithmetic on a string when we expect an integer. 
 
-    ValidationError: 1 validation error for MeteoriteLanding
-    lat
-    Input should be a valid number, unable to parse string as a number [type=float_parsing, input_value='abc', input_type=str]
-        For further information visit https://errors.pydantic.dev/2.12/v/float_parsing
+**Finding Errors with Pydantic**
 
-Let's try one more example. What do you think will happen with the following 
-code? Is this a valid or invalid according to the model?
+Pydantic is a powerful tool because it allows us to detect these errors in a controlled way. 
+If we execute the code above we see the following error: 
 
 .. code-block:: python 
-    :emphasize-lines: 5
 
-    ml4 = MeteoriteLanding(name="Ruiz", 
-                           id=10001, 
-                           class_name="L5", 
-                           mass=21, 
-                           lat="50.775", 
-                           long=6.08333)
-
-Technically, we are trying to pass a string (``"50.775"``) for the ``lat`` 
-field that was declare to be a ``float`` type. However, Pydantic accepts 
-this code as "valid" and it creates the ``ml4`` object. What does it do 
-to the ``lat`` field? 
-
-.. code-block:: python3 
-
-    ml4.lat
-    --> 50.775
-
-    type(ml1.lat)
-    --> float
-
-Pydantic converted it automatically to a float because the contents of the 
-string represented a valid floating point. In many cases, this kind of 
-behavior -- automatically converting types when possible -- will be useful 
-in your application, but in other cases, you may want the type checking to 
-be strict. This, like many things in software engineering, depends on the 
-requirements of your application, but rest assured that Pydantic provides 
-a mechanism for enforcing strict types when you need it. 
-
-
+    ValidationError: 1 validation error for ProteinEntry
+    length
+    Input should be a valid integer, unable to parse string as an integer [type=int_parsing, input_value='abc', input_type=str]
+        For further information visit https://errors.pydantic.dev/2.12/v/int_parsing
 
 Validating JSON Data 
 --------------------
 
-Similarly, we can also use Pydantic models to validate the JSON data that is 
-supposed to represent meteorite landings. Recall the following JSON object: 
+When we read JSON data from a file, we get a Python dictionary. We can then use that 
+dictionary to create a validated ``ProteinEntry`` object. Let's see how this works:
+
+**Step 1: JSON -> Python Dictionary**
+
+When we read JSON from a file, it becomes a Python dictionary. For example, the first protein in ``Protein_List.json`` 
+looks like this in JSON format:
 
 .. code-block:: json 
 
     {
-      "name": "Ruiz",
-      "id": 10001,
-      "class_name": "L5",
-      "mass": 21,
-      "lat": 50.775,
-      "long": 6.08333
+      "proteinName": "Myoglobin",
+      "organism": "Homo sapiens",
+      "className": "oxygen carrier",
+      "mass": 17184,
+      "length": 154
     }
 
-If we read this object into Python (from a file, say) using ``json.load`` 
-we would have a Python dictionary: 
+After using ``json.load()``, this becomes a Python dictionary:
 
-.. code-block:: python3 
+.. code-block:: python3
 
-    d = {'name': 'Ruiz',
-         'id': 10001,
-         'class_name': 'L5',
-         'mass': 21,
-         'lat': 50.775,
-         'long': 6.08333}
+    with open('Protein_List.json', 'r') as f:
+        prot_data = json.load(f)
+        prot_1_dict = prot_data['protein_entries'][0]
 
-Recall that if I have a Python function, ``f``, and a dictionary, ``d``, 
-then the syntax ``f(**d)`` means: "Call the function f passing named 
-arguments for each key in ``d`` and its associated value."
+    print(prot_1_dict)
 
-For example, if I have a function: 
+.. code-block:: console 
 
-.. code-block:: python 
+    {'proteinName': 'Myoglobin', 'organism': 'Homo sapiens', 'className': 'oxygen carrier', 'mass': 17184, 'length': 154}
 
-    def f (first: int, second: int) -> int: 
-       return first + second 
+**Step 2: Dictionary -> Pydantic Object**
 
-and a python dictionary with keys ``first`` and ``second``, like so:
+We have a dictionary with all our protein data. Now we need to turn it into a 
+``ProteinEntry`` object. 
+
+Earlier when we created ``ProteinEntry`` objects, you manually wrote out 
+each field name and value like this:
 
 .. code-block:: python 
 
-   d = { "first": 5, "second": 3}
+    protein1 = ProteinEntry(proteinName='Myoglobin', 
+                            organism='Homo sapiens',
+                            className='oxygen carrier',
+                            mass=17184,
+                            length=154)
 
-then:
+But we already have all this information in our dictionary! Instead of typing 
+it all out again, we can use ``**prot_1_dict`` to tell Python: "*Take everything from this 
+dictionary and use it to create the ProteinEntry*."
+
+We can simply write:
 
 .. code-block:: python 
 
-    f(**d)
-    --> 8
+    protein1 = ProteinEntry(**prot_1_dict)
 
+The ``**`` (two asterisks) is Python's way of saying "unpack this dictionary".
+It takes all the key-value pairs and uses them as arguments. The dictionary keys 
+must match the field names in our ``ProteinEntry`` model.
 
-In the same kind of way, we can create a ``MeteoriteLanding`` object from the 
-first dictionary above using this ``**d`` notation: 
+**Step 3: Validation Happens Automatically**
+
+Pydantic validates the data when we create the object. What do you think would happen 
+if we tried to create a ``ProteinEntry`` with invalid data?
 
 .. code-block:: python 
 
-    d = {'name': 'Ruiz',
-         'id': 10001,
-         'class_name': 'L5',
-         'mass': 21,
-         'lat': 50.775,
-         'long': 6.08333}
+    d = {'proteinName': 'Myoglobin',
+         'organism': 'Homo sapiens',
+         'className': 'oxygen carrier',
+         'mass': 'heavy',  # This should be an integer!
+         'length': 154}
     
-    ml5 = MeteoriteLanding(**d)
-
-And just like before, Pydantic handles data validation for us. 
-What do you think would happen with the following code?
-
-.. code-block:: python 
-
-    d = {'name': 'Ruiz',
-         'id': "a123",
-         'class_name': 'L5',
-         'mass': 21,
-         'lat': 50.775,
-         'long': 6.08333}
-    
-    ml5 = MeteoriteLanding(**d)
+    protein1 = ProteinEntry(**d)
 
 EXERCISE
 ~~~~~~~~
-Previously, we read the Meteorite_Landings_Simple.json file into Python. 
-Modify your script to read the data into a list of ``MeteoriteLanding`` 
-objects. 
+Previously, we read the ``Protein_List.json`` file into Python. 
+Modify your script to read the data into a **list** of ``ProteinEntry`` 
+**objects** using the ``**`` unpacking operator we just learned about.
 
-*Solution.* 
+.. toggle:: Click to see the solution
 
-.. code-block:: python 
+    .. code-block:: python 
 
-    import json
-    from pydantic import BaseModel 
+        import json
+        from pydantic import BaseModel 
 
-    class MeteoriteLanding(BaseModel):
-        name: str
-        id: int
-        class_name: str
-        mass: int
-        lat: float
-        long: float
+        class ProteinEntry(BaseModel):
+            proteinName: str
+            organism: str
+            className: str
+            mass: int
+            length: int
 
-    mls = []
-    with open('Meteorite_Landings_Simple.json', 'r') as f:
-        ml_data = json.load(f)
-    for ml in ml_data["meteorite_landings"]:
-        mls.append(MeteoriteLanding(**ml))
+        proteins = []
+        with open('Protein_List.json', 'r') as f:
+            prot_data = json.load(f)
+        for prot in prot_data["protein_entries"]:
+            proteins.append(ProteinEntry(**prot))
+
+Now that you have a list of ``ProteinEntry`` objects, you can use dot notation to access 
+their fields! Here are some examples:
+
+.. code-block:: python3
+
+    # Access the protein name of the first protein in the list
+    proteins[0].proteinName
+    # --> 'Myoglobin'
+
+    # Access the mass of the second protein in the list
+    proteins[1].mass
+    # --> 15998
+
+    # Loop through all proteins and print their names
+    for protein in proteins:
+        print(protein.proteinName)
 
 
 Work with JSON Data
 -------------------
 
-As we have seen, the meteorite landing data contains fields including
-names, ids, classes, masses, latitudes, and longitudes. Let's write a
-few functions to help us analyze the data.
+Now that we have our protein data loaded as ``ProteinEntry`` objects, let's write some 
+functions to analyze them. 
 
-A powerful aspect of Pydantic models is that we can use them to describe 
-the types just like ``int``, ``float``, etc. For example, we can use 
-them in the signatures of functions. We'll see this in the examples 
-below. 
-
-First, we'll write a function to calculate the average mass of a set of 
-meteorites from the data set. What kind of argument(s) should our function 
-take? 
-
-Our function will take a list of ``MeteoritLanding`` objects, and it will 
-iterate over that list, collecting the ``mass`` of each object as it goes.
-Remember, we can use dot notation to access the ``mass`` of each 
-meteorite landing. 
-
-After implementing it, call the function with the entire list of meteorite landings
-(the ``mls`` object computed in the previous exercise), 
-and have it print the average mass to screen.
-
-
-*Solution.* 
+When we write functions, we can tell Python what type of data the function expects 
+and what it will return. This is called a **type hint**. For example, if a function 
+takes a *list of ProteinEntry objects* and returns a *float*, we can write that in the function 
+definition. This makes our code easier to read and understand — just by looking at 
+the function, you can see what it needs and what it gives back.
 
 .. code-block:: python3
-   :linenos:
 
-   def compute_average_mass(landings: list[MeteoriteLandings]) -> float: 
-       total_mass = 0.
-       for ml in landings:
-           total_mass += ml.mass
-       return (total_mass / len(landings))
-   
-   print(compute_average_mass(mls))
-
-Notice how easy to read our function becomes. Just from the signature, 
-you can immediately tell what kind of data the function requires, and 
-the ``for`` loop clearly sums up the mass of the 
-
-Next, write a function to check where on the globe the meteorite landing site is
-located. We need to check whether it is Northern or Southern hemisphere, and
-whether it is Western or Eastern hemisphere.
-
-In this case, our function will accept just a single ``MeteoriteLanding`` 
-object, and it will use dot notation to access its ``lat`` and ``long`` 
-fields. 
-
-Once you implement the function, call it with the first meteorite landing 
-from the ``mls`` list.
-
-.. code-block:: python3
-   :linenos:
-
-   def check_hemisphere(ml: MeteoriteLanding) -> str: 
-       location = ''
-       if (ml.lat > 0):
-           location = 'Northern'
-       else:
-           location = 'Southern'
-       if (ml.long > 0):
-           location = f'{location} & Eastern'
-       else:
-           location = f'{location} & Western'
-       return(location)
-
-    check_hemisphere(mls)
-
+    def some_function(proteins: list[ProteinEntry]) -> float: 
 
 EXERCISE
 ~~~~~~~~
 
-Write a third function to count how many of each 'class' of meteorite there is
-in the list. What types should the function signature have? 
-The output should look something like:
+**Function 1: Find the Protein with the Largest Mass**
 
-.. code-block:: console
+Write a function that takes a list of ProteinEntry objects and returns the name and mass of the protein
+with the largest mass. 
 
-   type, number
-   H, 1
-   H4, 2
-   L6, 6
-   ...etc
+Think about:
 
-*Solution.* A first solution may look something like this:
+* What should the function take as input? (Hint: a list of ``ProteinEntry`` objects)
+* How do you find the protein with the largest mass? (Hint: start with placeholder variables for ``largest_protein`` and ``largest_mass``, then loop through all proteins and track the largest mass seen so far)
+* How do you return both the protein name AND its mass? (Hint: return a list with two items — the name first, then the mass)
 
-.. code-block:: python3 
+.. toggle:: Click to see the solution
 
-    def meteorite_types(landings: list[MeteoriteLanding]) -> dict:
-         result = {}
-         for ml in landings:
-             if ml.class_name not in result.keys():
-                 result[ml.class_name] = 1
-             else:
-                 result[ml.class_name] += 1
-         return result
+    .. code-block:: python3
+       :linenos:
 
+        def find_largest_mass(proteins: list[ProteinEntry]) -> list:
+            largest_protein = None
+            largest_mass = 0
+            
+            for protein in proteins:
+                if protein.mass > largest_mass:
+                    largest_mass = protein.mass
+                    largest_protein = protein.proteinName
+            
+            return [largest_protein, largest_mass]
 
-Serializing Pydantic Models
----------------------------
+        # Test it
+        result = find_largest_mass(proteins)
+        print(f"{result[0]} has the largest mass at {result[1]} Daltons")
 
-Another powerful aspect of Pydantic models is that they provide built-in 
-methods for *serializing*, or converting, to standard formats such as JSON. 
-Given a Pydantic model, for example our ``ml1`` we created above, we can 
-use the ``model_dump_json()`` function to generate JSON. 
+    Here's how it works:
+    
+    * Line 1: The function takes a list of ``ProteinEntry`` objects and returns a list
+    * Lines 2-3: We start by keeping track of the largest protein we've found so far 
+      (set to None) and the largest mass (set to 0)
+    * Lines 5-8: We loop through each protein. If a protein's mass is larger than 
+      what we've seen so far, we update our records
+    * Line 10: We return a list containing the protein name and its mass
+    * Lines 13-14: We test the function. We get the result as a list and access the 
+      first item using ``result[0]`` to print the protein name and access the second item 
+      using ``result[1]`` to print the protein's mass.
 
-.. code-block:: python3
+**Function 2: Find Proteins by Organism**
 
-    ml1
-    --> MeteoriteLanding(name='Ruiz', id=10001, class_name='L5', mass=21, lat=50.775, long=6.08333)
+Write a function that takes a list of proteins and an organism name (like "Homo sapiens"), 
+and returns a new list containing only the proteins from that organism.
 
-    ml1.model_dump_json()
-    --> '{"name":"Ruiz","id":10001,"class_name":"L5","mass":21,"lat":50.775,"long":6.08333}'
+Think about:
 
-Notice that the return type of ``model_dump_json`` is ``str``, exactly what we 
-would expect for a serializing method, and the format is structured like JSON. 
+* What should the function take as input? 
+* How do you check if a protein's organism matches? 
+* How do you build a new list? (Hint: start with an empty list ``[]`` and use ``append()``)
+
+.. toggle:: Click to see the solution
+
+    .. code-block:: python3
+       :linenos:
+
+       def filter_by_organism(proteins: list[ProteinEntry], organism: str) -> list:
+           result = []
+           for protein in proteins:
+               if protein.organism == organism:
+                   result.append(protein.proteinName)
+           return result
+       
+       # Find all human proteins
+       human_proteins = filter_by_organism(proteins, "Homo sapiens")
+       print(human_proteins)
+
+    Here's what each part does:
+    
+    * Line 1: The function takes a list of ``ProteinEntry`` objects and an organism name (str), and returns a list (of proteins)
+    * Line 2: We create an empty list to store our results
+    * Lines 3-5: We loop through each protein. If the protein's organism matches 
+      the one we're looking for, we add the proteinName to our result list
+    * Line 6: We return the list of matching proteins
+    * Lines 9-10: We test the function by finding all human proteins and printing them to the screen.
 
 Write JSON to File
 ------------------
 
-Finally, in a new script, we will create an object that we can write to a new
-JSON file. Our object will represent a UT course. Each course will have a 
-``course_id`` (string), a ``title`` (string), and a list of ``topics``, each 
-should be a string. 
+Now let's learn how to create a JSON file from scratch. We'll create a simple 
+dataset description and save it as a JSON file.
 
-We'll first define a Pydantic model to represent our data. Then, we'll create 
-an example UTCourse object. Finally, we'll pass the output of ``model_dump_json``
-to ``json.dump`` to save it to a file. 
+**Step 1: Define a New Model**
 
-*Solution.*
+First, we'll create a Pydantic model for a dataset.
 
 .. code-block:: python3
    :linenos:
 
+   import json
    from pydantic import BaseModel 
    
-   class UTCourse(BaseModel):
-       course_id: str
+   class Dataset(BaseModel):
+       accession: str
+       id: int
        title: str
-       topics: list[str]
+       dataType: str
 
-   course = UTCourse(course_id='COE332', 
-                     title='Software Engineering and Design',
-                     topics=['linux', 'python3', 'git'])
+**Step 2: Create a Dataset Object**
 
-   with open('course.json', 'w') as out:
-       json.dump(course.model_dump_json(), out, indent=2)
+Now we'll create an example dataset using our model:
 
-Notice that most of the code in the script above was simply assembling a normal
-Python3 dictionary. The ``json.dump()`` method only requires two arguments - the
-object that should be written to file, and the filehandle. The ``indent=2``
-argument is optional, but it makes the output file looks a little nicer and
-easier to read.
+.. code-block:: python3
 
-Inspect the output file and paste the contents into an online JSON validator.
+   dataset1 = Dataset(accession='PRJNA1412539', 
+                      id=1412539,
+                      title='Transposon-insertion sequencing uncovers nlpD as the essential gene for intracellular persistence and infectivity of Salmonella',
+                      dataType='Raw sequence reads')
+
+**Step 3: Write to a File**
+
+To save this to a JSON file, we need to:
+
+1. Convert the Pydantic object to a dictionary using the ``.model_dump()`` method from the Pydantic library
+
+2. Use ``json.dump()`` to write it to a file
+
+    The basic syntax for ``json.dump()`` is ``json.dump(obj, file_object)``, where:
+    
+    * ``obj`` is the Python object you want to convert, and
+    * ``file_object`` is the pointer to a file opened in write (``'w'``) or append (``'a'``) mode. 
+
+.. code-block:: python3
+   :linenos:
+
+   with open('dataset.json', 'w') as out:
+       json.dump(dataset1.model_dump(), out, indent=2)
+
+Let's break this down:
+
+* ``with open('dataset.json', 'w')`` opens a file called "dataset.json" for writing 
+  (the ``'w'`` means "write mode")
+* ``out`` is the name we give to the open file — you can think of it as a connection 
+  to the file
+* ``dataset1.model_dump()`` converts our Pydantic object into a regular Python 
+  dictionary
+* ``json.dump()`` writes that dictionary to the file as JSON
+* ``indent=2`` makes the JSON file easier to read by adding indentation (this is 
+  optional but recommended)
+
+After running this code, you'll have a new file called ``dataset.json`` in your 
+working directory. Open it and check that it looks like valid JSON!
 
 
 
 Additional Resources
 --------------------
 
-* `Reference for the JSON library <https://docs.python.org/3.9/library/json.html>`_
+* `Reference for the JSON library <https://docs.python.org/3/library/json.html>`_
 * `Validate JSON with JSONLint <https://jsonlint.com/>`_
-* `Meteorite Landings Data <https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh>`_
+* `UniProt <https://www.uniprot.org/>`_ — protein sequence and functional annotation
