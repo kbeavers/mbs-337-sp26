@@ -1,0 +1,11 @@
+proteinName,organism,className,mass,length
+Myoglobin,Homo sapiens,oxygen carrier,17184,154
+Hemoglobin subunit beta,Homo sapiens,oxygen carrier,15998,147
+Insulin,Canis lupus familiaris,hormone,12190,110
+"Cytochrome c oxidase subunit 12, mitochondrial",Saccharomyces cerevisiae,oxidoreductase,9788,83
+Green fluorescent protein,Montastraea cavernosa,fluorescence,25679,224
+Collagen alpha-1(I) chain,Homo sapiens,structural,138911,1464
+Ras-related protein Rab7,Drosophila melanogaster,transport,23331,207
+Nuclear factor NF-kappa-B p105 subunit,Mus musculus,immunity,105615,971
+Toll-like receptor 9,Bos taurus,immunity,115407,1029
+Hemagglutinin,Influenza A virus,virulence,63686,565
