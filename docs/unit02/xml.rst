@@ -236,7 +236,7 @@ Output:
 
 Additional Resources
 --------------------
-
+* Many of the materials in this module were adapted from `COE 332: Software Engineering & Design <https://coe-332-sp26.readthedocs.io/en/latest/unit02/xml.html>`_
 * `The xmltodict Library <https://github.com/martinblech/xmltodict>`_
 * `XML Linter <https://xmllint.com/>`_
 * Many biological databases provide XML formats — check out NCBI's XML formats for gene and protein data
