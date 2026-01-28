@@ -26,6 +26,7 @@ research problems.
 
    homework/homework01
    homework/homework02
+   homework/homework03
 
 
 .. toctree::
