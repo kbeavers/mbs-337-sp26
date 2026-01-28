@@ -22,4 +22,6 @@ package for defining models representing our data.
 
    json
    csv
+   xml
+   yaml
 

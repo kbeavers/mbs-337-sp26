@@ -4,7 +4,7 @@ YAML Reference
 This reference guide is designed to introduce you to YAML syntax. YAML (YAML
 Ain't Markup Language) is basically JSON with a couple extra features, and meant
 to be a little more human readable. We will be using YAML formatted configuration
-files in the Docker compose and Kubernetes sections, so it is important to become
+files in the Docker compose sections later in the course, so it is important to become
 familiar with the syntax.
 
 
@@ -65,15 +65,16 @@ We previously saw this complex data structure in JSON:
 .. code-block:: json
 
    {
-     "department": "COE",
-     "number": 332,
-     "name": "Software Engineering and Design",
+     "department": "MBS",
+     "number": 337,
+     "name": "Research Computing in Biology",
      "inperson": true,
      "finalgroups": null,
-     "instructors": ["Joe", "Charlie", "Joe"],
+     "instructors": ["Kelsey", "Erik", "Joe"],
      "prerequisites": [
-       {"course": "COE 322", "instructor": "Victor"},
-       {"course": "SDS 322", "instructor": "Victor"}
+       {"course": "INB 321G", "name": "Principles of Computational Biology"},
+       {"course": "BCH 339N", "name": "Systems Biology and Bioinformatics"},
+       {"course": "CS 303E", "name": "Elements of Computers and Programming"}
      ]
    }
 
@@ -82,20 +83,22 @@ The same structure in YAML is:
 .. code-block:: yaml
 
    ---
-   department: COE
-   number: 332
-   name: Software Engineering and Design
+   department: MBS
+   number: 337
+   name: Research Computing in Biology
    inperson: true
    finalgroups: null         # can also use ~
    instructors:
-     - Joe
-     - Charlie
+     - Kelsey
+     - Erik
      - Joe
    prerequisites:
-     - course: COE 322
-       instructor: Victor
+     - course: INB 321G
+       name: Principles of Computational Biology
      - course: SDS 322
-       instructor: Victor
+       name: Systems Biology and Bioinformatics
+     - course: CS 303E
+       name: Elements of Computers and Programming
    ...
 
 The whole thing can be considered a dictionary. The key ``instructors`` contains
@@ -106,14 +109,13 @@ can see above, YAML also supports comments starting with a ``#``.
 
 One glaring thing that is missing from the YAML file is quotation marks. In
 general, you don't have to use quotes in YAML. You may use quotes to force a
-number to be interpreted as a string (e.g. ``10`` will automatically be
-interpreted as an integer, but ``"10"`` will be interpreted as a string).
+number to be interpreted as a string (e.g. ``337`` will automatically be
+interpreted as an integer, but ``"337"`` will be interpreted as a string).
 
 .. note::
 
-   Check out the list of meteorite landing sites we worked with in the JSON
-   section, but now in YAML format
-   `here <https://raw.githubusercontent.com/tacc/coe-332-sp25/main/docs/unit02/sample-data/Meteorite_Landings.yaml>`_.
+   Check out the list of uniprot proteins we worked with in the JSON section, but
+   now in CSV format `here <https://raw.githubusercontent.com/kbeavers/mbs-337-sp26/refs/heads/main/docs/unit02/sample-data/uniprot_proteins_simple.yaml>`_.
 
 There is a lot more to YAML, most of which we will not use in this course. Just
 know that YAML files can contain:
@@ -127,8 +129,6 @@ know that YAML files can contain:
 * A mechanism to duplicate / inherit values across a document ("anchors")
 
 
-
-
 If we encounter a need for any of these, we can refer to the
 `official YAML syntax <https://yaml.org/spec/1.2/spec.html>`_
 
@@ -139,15 +139,16 @@ Read YAML from File
 .. warning::
 
    There is no YAML interpreter in the Python 3 standard libary, so we need
-   to install one with pip3:
+   to install one with pip3. Make sure your virtual
+   environment is activated:
 
    .. code-block:: console
 
-      [coe332-vm]$ pip3 install --user pyyaml
+      (myenv) [mbs-337]$ pip3 install pyyaml
 
 
-Given the meteorite landing site data in YAML format, which you can download from
-`this link <https://raw.githubusercontent.com/tacc/coe-332-sp25/main/docs/unit02/sample-data/Meteorite_Landings.yaml>`_,
+Given the protein data in YAML format, which you can download from
+`this link <https://raw.githubusercontent.com/kbeavers/mbs-337-sp26/refs/heads/main/docs/unit02/sample-data/uniprot_proteins_simple.yaml>`_,
 load it into a Python3 dictionary object using the following:
 
 .. code-block:: python3
@@ -157,15 +158,15 @@ load it into a Python3 dictionary object using the following:
 
    data = {}
 
-   with open('Meteorite_Landings.yaml', 'r') as f:
-       data = yaml.load(f, Loader=yaml.SafeLoader)
+   with open("Protein_List.yaml", "r") as f:
+      data = yaml.load(f, Loader = yaml.SafeLoader)
+      print(data['protein_entries'][0])
+
 
 Very similar to the JSON module, it only requires a few simple lines then you
 have a dictionary object to work with. The ``Loader=yaml.SafeLoader`` parameter
 makes it so no arbitrary Python code is executed when loading in the data - this
 is typically a good choice for data from untrusted sources.
-
-
 
 
 Write YAML to File
@@ -179,27 +180,42 @@ In a new script create a dictionary object that we can write to a new YAML file.
    import yaml
 
    data = {}
-   data['class'] = 'COE332'
-   data['title'] = 'Software Engineering and Design'
-   data['subjects'] = []
-   data['subjects'].append( {'unit': 1, 'topic': ['linux', 'python3', 'git']} )
-   data['subjects'].append( {'unit': 2, 'topic': ['json', 'csv', 'xml', 'yaml']} )
+   data['accession'] = 'PRJNA1412539'
+   data['id'] = '1412539'
+   data['title'] = 'Transposon-insertion sequencing uncovers nlpD as the essential gene for intracellular persistence and infectivity of Salmonella'
+   data['dataType'] = 'Raw sequence reads'
 
-   with open('class.yaml', 'w') as o:
+   with open('data.yaml', 'w') as o:
        yaml.dump(data, o)
 
 Notice that most of the code in the script above was simply assembling a normal
 Python3 dictionary. The ``yaml.dump()`` method only requires two arguments - the
 object that should be written to file, and the filehandle.
 
-Inspect the output file and paste the contents into an online YAML validator.
+Inspect the output file. Do you notice anything interesting?
 
+.. toggle:: Click to show
 
+   1. You may notice that the keys are no longer in the same order as the ``data`` Python dictionary. This is because
+   PyYAML sorts the keys lexicographically unless told otherwise. We can tell PyYAML to **not** sort keys like this:
 
+   .. code-block:: python3
+
+      with open('data.yaml', 'w') as o:
+         yaml.dump(data, o, sort_keys=False)
+
+   2. You may also notice that our output is missing the document start ``(---)`` and end ``(...)`` markers. Markers are typically
+   only required to separate multiple documents in a single stream, making them technically unneccessary for our single-document
+   output. We can explicitly add them like so:
+
+   .. code-block:: python3
+
+      with open('data.yaml', 'w') as o:
+         yaml.dump(data, o, explicit_start=True, explicit_end=True)
 
 Additional Resources
 --------------------
-
+* Many of the materials in this module were adapted from `COE 332: Software Engineering & Design <https://coe-332-sp26.readthedocs.io/en/latest/unit02/yaml.html>`_
 * `YAML Spec <https://yaml.org/spec/1.2/spec.html>`_
 * `YAML Validator <http://www.yamllint.com/>`_
 * `JSON / YAML Converter <https://www.json2yaml.com/>`_
