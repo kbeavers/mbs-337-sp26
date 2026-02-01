@@ -21,4 +21,5 @@ foundations from Unit 2.
    :maxdepth: 1
 
    fasta
+   fastq
 
