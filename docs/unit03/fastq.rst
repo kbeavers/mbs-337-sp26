@@ -241,7 +241,6 @@ Activate your Python virtual environment and create a file called ``fastq_ex.py`
         for record in SeqIO.parse(f, 'fastq-sanger'):
             print(f"ID: {record.id}")
             print(f"Sequence: {record.seq}")
-            print(f"Length: {len(record.seq)}")
             print(f"Annot: {record.letter_annotations}")
             break
 
@@ -285,7 +284,8 @@ EXERCISE
 ---------
 
 Let's say this FASTQ file contains some RNA-Seq data we just got back from the sequencer.
-The first thing we need to do is quality control. We'll read in the FASTQ, define two **Pydantic models**
+The first thing we need to do is check the quality of our data, and record it in a human-readable 
+format like JSON. We'll read in the FASTQ, define two **Pydantic models**
 (see `Unit 2 <https://mbs-337-sp26.readthedocs.io/en/latest/unit02/json.html#modeling-data-with-pydantic-a-first-look>`_):
 one for each read summary (sequence identifier, sequence, total bases, average Phred quality), and one
 top-level model whose **reads** field holds a list of those summaries. 
