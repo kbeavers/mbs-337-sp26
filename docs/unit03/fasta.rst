@@ -130,7 +130,7 @@ sequence data very straightforward. Let's activate our Python3 virtual environme
 file called ``fasta_ex.py``.
 
 For reading FASTA files, we will use **SimpleFastaParser** from Biopython.  ``SimpleFastaParser`` 
-is a lightweight, memory-efficient generator that yields ``(title, sequence)`` tuples. 
+is a lightweight, memory-efficient generator that yields ``(header, sequence)`` tuples. 
 This makes it great for working with large FASTA files.
 
 .. admonition:: Tuple vs List
@@ -184,8 +184,8 @@ method to break the header string into pieces:
     from Bio.SeqIO.FastaIO import SimpleFastaParser
 
     with open('sequences.fasta', 'r') as f:
-        for title, sequence in SimpleFastaParser(f):
-            parts = title.split()
+        for header, sequence in SimpleFastaParser(f):
+            parts = header.split()
             print(parts)
             break
 
