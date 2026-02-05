@@ -11,7 +11,7 @@ This homework builds on Unit 3 (FASTA, FASTQ, and mmCIF). You will use the same 
 FASTA statistics and length-based filtering, FASTQ quality filtering and output, and
 mmCIF multi-chain analysis and coordinate extraction.
 
-**Input files (different from class):**
+**Input files:**
 
 * **FASTA:** A multi-sequence FASTA file named ``immune_proteins.fasta``. Download with:
 
@@ -27,14 +27,14 @@ mmCIF multi-chain analysis and coordinate extraction.
    wget https://github.com/TACC/mbs-337-sp26/raw/refs/heads/main/docs/unit03/sample-data/sample1_rawReads.fastq.gz
    gunzip sample1_rawReads.fastq.gz
 
-* **mmCIF:** The hemoglobin structure **4HHB** (four chains). Download with:
+* **mmCIF:** The hemoglobin structure **4HHB**. Download with:
 
 .. code-block:: console
 
    wget https://files.rcsb.org/download/4HHB.cif.gz
    gunzip 4HHB.cif.gz
 
-Exercise 1: Count Residues in FASTA File
+Exercise 1: Count residues in FASTA file
 -----------------------------------------
 
 Create a Python script called ``exercise1.py`` that reads ``immune_proteins.fasta``
@@ -131,7 +131,7 @@ Example Output:
 
 **Requirements:**
 
-* Use ``4HHB.cif`` (hemoglobin has four chains: A, B, C, D).
+* Use ``4HHB.cif``.
 * Use ``MMCIFParser`` from ``Bio.PDB.MMCIFParser`` to read the mmCIF file.
 * Remember the object hierarchy in Biopython PDB: structure → models → chains → residues → atoms. Use nested ``for`` loops to walk this hierarchy.
 * Only when the residue is non-hetero should you increment your residue counter and loop over its atoms to count them.
@@ -144,6 +144,7 @@ What to Turn In
 2. Add all four Python scripts (``exercise1.py`` through ``exercise4.py``) to this directory.
 3. Place the generated output files in ``homework04``.
 4. Add a ``README.md`` in ``homework04`` that:
+
    * Describes what each script does
    * Explains where to get the input files
    * Includes a section on AI usage (if applicable — see note below)
