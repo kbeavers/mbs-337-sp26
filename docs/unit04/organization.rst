@@ -414,7 +414,7 @@ single jobs:
 
 .. code-block:: python3
     :linenos:
-    :emphasize-lines: 3, 27
+    :emphasize-lines: 3, 25
     :caption: fastq_summary.py 
 
     import json
@@ -422,9 +422,8 @@ single jobs:
     from models import ReadSummary, FastqSummary
 
     def summarize_record(record) -> ReadSummary:
-        """
-        Convert one FASTQ record into a ReadSummary instance
-        """
+        # Convert one FASTQ record into a ReadSummary instance
+
         phred_scores = record.letter_annotations['phred_quality']
         average_phred = sum(phred_scores) / len(phred_scores)
 
@@ -436,9 +435,8 @@ single jobs:
         )
 
     def summarize_fastq_file(fastq_file: str, encoding: str) -> FastqSummary:
-        """
-        Read a FASTQ file and return a FastqSummary instance 
-        """
+        # Read a FASTQ file and return a FastqSummary instance 
+
         reads_list = []
 
         with open(fastq_file, 'r') as f:
@@ -448,9 +446,8 @@ single jobs:
         return FastqSummary(reads=reads_list)
 
     def write_summary_to_json(summary: FastqSummary, output_file: str) -> None:
-        """
-        Write FastqSummary to a JSON file
-        """
+        # Write FastqSummary to a JSON file
+
         with open(output_file, 'w') as outfile:
             json.dump(summary.model_dump(), outfile, indent=2)
 
@@ -489,9 +486,8 @@ a module:
     # Functions 
     # -------------------------
     def summarize_record(record) -> ReadSummary:
-        """
-        Convert one FASTQ record into a ReadSummary instance
-        """
+        # Convert one FASTQ record into a ReadSummary instance
+
         phred_scores = record.letter_annotations['phred_quality']
         average_phred = sum(phred_scores) / len(phred_scores)
 
@@ -503,9 +499,8 @@ a module:
         )
 
     def summarize_fastq_file(fastq_file: str, encoding: str) -> FastqSummary:
-        """
-        Read a FASTQ file and return a FastqSummary instance 
-        """
+        # Read a FASTQ file and return a FastqSummary instance 
+
         reads_list = []
 
         with open(fastq_file, 'r') as f:
@@ -515,9 +510,8 @@ a module:
         return FastqSummary(reads=reads_list)
 
     def write_summary_to_json(summary: FastqSummary, output_file: str) -> None:
-        """
-        Write FastqSummary to a JSON file
-        """
+        # Write FastqSummary to a JSON file
+
         with open(output_file, 'w') as outfile:
             json.dump(summary.model_dump(), outfile, indent=2)
 
