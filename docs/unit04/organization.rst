@@ -633,3 +633,4 @@ Additional Resources
 
 * Many of the materials in this module were adapted from `COE 332: Software Engineering & Design <https://coe-332-sp26.readthedocs.io/en/latest/unit03/organization.html#>`_
 * `PEP 8 Style Guide <https://www.python.org/dev/peps/pep-0008/>`_
+* `Defining Main Functions in Python <https://realpython.com/python-main-function/>`_
