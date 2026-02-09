@@ -84,3 +84,40 @@ Find solutions to common problems below
           ForwardAgent yes
           MACs hmac-sha2-512
 
+
+.. dropdown:: I don't know how to format my README.md.
+
+   README.md files use `Markdown <https://www.markdownguide.org/basic-syntax/>`_ syntax, hence the ``.md`` file ending. 
+   Markdown is great because it provides a simple way to format text (such as documentation) in an intuitive, organized structure. 
+   There's a great general-use example README.md template `here <https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc>`_.
+   For your homework assignments, you can use the following Markdown template as a guide:
+
+   .. code-block:: markdown
+
+      # Project Title
+
+      Simple overview of use/purpose.
+
+      ## Setup Instructions
+
+      Describe any necessary setup that someone would need to reproduce what you did: E.g.,:
+
+      I ran these exercises in a virtual environment with the **pydantic** and **biopython** packages installed:
+      ```bash
+      source myenv/bin/activate
+      pip3 install pydantic
+      pip3 install biopython
+      ```
+
+      ## Exercise Descriptions
+
+      ### Exercise 1
+      ***Requires pydantic package***
+      Description of the exercise and what you did. Optionally describe any functions/classes defined within your code:
+      1. **find_total_mass**: description
+      2. **find_large_proteins**: description
+
+      ## Note on AI Usage (if applicable)
+
+      Describe which/how AI tools were used to complete your homework exercises.
+
