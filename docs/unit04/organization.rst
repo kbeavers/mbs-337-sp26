@@ -174,9 +174,8 @@ Let's start by putting the "summarize chains" logic in a function:
     from Bio.PDB.MMCIFParser import MMCIFParser
 
     def summarize_chains(structure):
-        """
-        Print residue count for each chain in each model.
-        """
+        # Print residue count for each chain in each model.
+
         for model in structure:
             for chain in model:
                 chain_id = chain.get_id()
@@ -207,9 +206,8 @@ they are easy to find and change, and so that ``main()`` only contains the workf
     STRUCTURE_ID = "myoglobin"
 
     def summarize_chains(structure):
-        """
-        Print residue count for each chain in each model.
-        """
+        # Print residue count for each chain in each model.
+
         for model in structure:
             for chain in model:
                 chain_id = chain.get_id()
@@ -219,9 +217,8 @@ they are easy to find and change, and so that ``main()`` only contains the workf
                 print(f"Chain {chain_id}: {num_residues} residues")
 
     def main():
-        """
-        Create parser, open file, create structure object, call summarize_chains()
-        """
+        # Create parser, open file, create structure object, call summarize_chains()
+
         parser = MMCIFParser()
         with open(CIF_FILE, 'r') as f:
             structure = parser.get_structure(STRUCTURE_ID, f)
@@ -243,9 +240,8 @@ file as a script runs the workflow, but importing the file does not:
     STRUCTURE_ID = "myoglobin"
 
     def summarize_chains(structure):
-        """
-        Print residue count for each chain in each model.
-        """
+        # Print residue count for each chain in each model.
+
         for model in structure:
             for chain in model:
                 chain_id = chain.get_id()
@@ -255,9 +251,8 @@ file as a script runs the workflow, but importing the file does not:
                 print(f"Chain {chain_id}: {num_residues} residues")
 
     def main():
-        """
-        Create parser, open file, create structure object, call summarize_chains()
-        """
+        # Create parser, open file, create structure object, call summarize_chains()
+        
         parser = MMCIFParser()
         with open(CIF_FILE, 'r') as f:
             structure = parser.get_structure(STRUCTURE_ID, f)
