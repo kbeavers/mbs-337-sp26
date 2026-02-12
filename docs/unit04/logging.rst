@@ -39,19 +39,29 @@ Log levels
 ``logging`` module (in the standard library) defines five standard levels,
 from most to least verbose:
 
-+-----------+---------------------------------------------------------------+
-| Level     | Use it for                                                    |
-+===========+===============================================================+
-| DEBUG     | Detailed info for troubleshooting (e.g. "entering function X")|
-+-----------+---------------------------------------------------------------+
-| INFO      | Normal progress ("file opened", "processed 100 records")      |
-+-----------+---------------------------------------------------------------+
-| WARNING   | Something unexpected but the program keeps running            |
-+-----------+---------------------------------------------------------------+
-| ERROR     | A real problem; some operation failed                         |
-+-----------+---------------------------------------------------------------+
-| CRITICAL  | Very serious; the program may not be able to continue         |
-+-----------+---------------------------------------------------------------+
+.. list-table::
+    :align: center
+    :header-rows: 1
+
+    * - Level
+      - Use 
+      - Example
+    * - DEBUG  
+      - Capture detailed diagnostic information, typically only of interest during development.
+      - "Parsed 152 records from input file"
+    * - INFO 
+      - Confirm things are working as expected; provide general information about the workflow. 
+      - "Successfully loaded 4HHB.cif"
+    * - WARNING 
+      - Indicate potential issues that may require attention.
+      - "Missing values detected in 3 records"
+    * - ERROR 
+      - Record problems that impact some functionality of the application.
+      - "Could not open input file '4HHB.cif'"
+    * - CRITICAL  
+      - Most severe error; program failure has occurred. 
+      - "Database connection failed — shutting down application"
+
 
 If you set the log level to ``WARNING``, you'll see WARNING, ERROR, and
 CRITICAL messages, but not DEBUG or INFO. If you set it to ``DEBUG``, you'll
@@ -202,7 +212,7 @@ This string tells the logging system how each log line should look. There's two 
 formatting happening: 
 
 1. **Python f-string formatting**: happens immediately when the program runs; used here to insert the hostname
-2. **Logging placeholders** (e.g. ``%(...)s```): these are filled in later by the logging system; each placeholder corresponds to information about the log event. 
+2. **Logging placeholders** (e.g. ``%(...)s``): these are filled in later by the logging system; each placeholder corresponds to information about the log event. 
 
    * ``%(asctime)s`` – The time the log message was created 
    * ``%(filname)s`` – The name of the Python file that logged the message
